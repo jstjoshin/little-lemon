@@ -5,8 +5,10 @@ const Header = ({logo}) => {
 
   return (
     <header>
-      <img src={logo} alt="logo"/>
-      <Nav />
+      <section>
+        <img src={logo} alt="logo"/>
+        <Nav isHeader={true} />
+      </section>
     </header>
   );
 };

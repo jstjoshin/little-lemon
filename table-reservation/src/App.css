@@ -1,38 +1,282 @@
-.App {
+@import url('https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,200..800;1,200..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Markazi+Text:wght@400..700&display=swap');
+
+html {
+  font-size: 16px;
+}
+:root {
+  --font-primary: 'Karla', sans-serif;
+  --font-secondary: 'Markazi Text', serif;
+
+  --font-size-base: 1rem;
+  --font-size-xl: 4rem;
+  --font-size-lg: 2.5rem;
+  --font-size-md: 1.25rem;
+  --font-size-sm: 1.125rem;
+
+  --font-weight-regular: 400;
+  --font-weight-normal: 500;
+  --font-weight-bold: 700;
+  --font-weight-xbold: 800;
+  
+  --line-height-normal: normal;
+  --line-height-lg: 140%;
+
+  --primary-green: #495E57;
+  --primary-yellow: #F4CE14;
+  --secondary-alert: #EE9972;
+  --secondary-highlight: #FBDABB;
+  --secondary-grey: #EDEFEE;
+  --secondary-off-black: #333333;
+  --black: #000000;
+  --white: #ffffff;
+
+  --max-width-desktop: 53.75rem;
+}
+body {
+  font-family: var(--font-primary);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-normal);
+}
+h1, h2, h3, h4, h5, p {
+  padding: 0px;
+  margin: 0px;
+}
+h1 {
+  font-family: var(--font-secondary);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-normal);
+}
+h2{
+  font-family: var(--font-secondary);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-normal);
+}
+h3 {
+  font-family: var(--font-primary);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-xbold);
+  text-transform: uppercase;
+}
+h4 {
+
+}
+h5 {
+  color: var(--white);
+  font-family: var(--font-primary);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-bold);
+}
+p {
+  color: var(--primary-green);
+  font-family: var(--font-primary);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-lg);
+}
+menu {
+  padding: 0px;
+  margin: 0px;
+}
+li {
+  list-style: none;
+  padding: 0.5rem;
+}
+a {
+  color: var(--black);
+  font-family: var(--font-primary);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-bold);
+  text-decoration: none;
+}
+header, main, main section:first-of-type, footer {
+  display: grid;
+  grid-template-columns: minmax(2rem, 1fr) minmax(auto, 860px) minmax(2rem, 1fr);
+  column-gap: 20px;
+}
+header > *, footer > * {
+  grid-column: 2;
+}
+
+
+/* Header */
+header {
+  padding: 2rem 0;
+}
+header section {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem 2rem;
   text-align: center;
 }
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+header img {
+  width: 12rem;
+  height: auto;
+}
+header nav {
+  flex-grow: 1;
+}
+header menu, header h5 {
+  display: none;
+}
+header menu:first-of-type {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+header li {
+  flex-shrink: 0;
+}
+header a{
+  
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+/* Main */
+main {
+  padding: 0 0 6.25rem;
 }
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+main section {
+  grid-column: 2;
+}
+main section:first-of-type {
+  grid-column: 1 / span 3;
+  background: var(--primary-green);
+}
+main section:first-of-type > * {
+  grid-column: 2;
+}
+main header {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
+}
+main header h2 {
+  margin-top: -0.625rem;
+}
+
+/* Footer */
+footer {
+  padding: 4.375rem 0 6.25rem 0;
+  background: var(--primary-green);
+}
+footer section {
+  display: flex;
+  flex-direction: row;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  gap: 2rem;
+  align-items: flex-start;
+}
+footer img {
+  width: 120px;
+  height: auto;
+  margin-top: 0.5rem;
+}
+footer nav h5:nth-of-type(1) {
+  grid-area: title-1;
+}
+footer nav h5:nth-of-type(2) {
+  grid-area: title-2;
+}
+footer nav h5:nth-of-type(3) {
+  grid-area: title-3;
+}
+footer nav menu:nth-of-type(1) {
+  grid-area: menu-1;
+}
+footer nav menu:nth-of-type(2) {
+  grid-area: menu-2;
+}
+footer nav menu:nth-of-type(3) {
+  grid-area: menu-3;
+}
+footer nav {
+  display: grid;
+  grid-template-areas: "title-1 title-2 title-3" 
+                         "menu-1 menu-2 menu-3"; 
+  grid-template-columns: repeat(3, 1fr);
+  column-gap: 2rem;
+  width: 100%;
+}
+footer menu {
+  
+}
+footer h5 {
+  padding-bottom: 0.25rem;
+  max-width: 12rem;
+  
+}
+footer li {
+  padding: 0.25rem 0;
+}
+footer a {
+  color: var(--white);
+  font-weight: var(--font-weight-normal);
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+/* Breakpoint changes */
+@media (max-width: 768px) { 
+  header, main, main section:first-of-type, footer {
+    grid-template-columns: [left-edge] 1rem minmax(auto, 860px) 1rem;
   }
-  to {
-    transform: rotate(360deg);
+  header menu {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  footer section {
+    flex-wrap: wrap-reverse;
+  }
+}
+@media (max-width: 550px) { 
+  header, main, main section:first-of-type, footer {
+    grid-template-columns: [left-edge] 1rem repeat(4, [col-start] 1fr) 1rem;
+    column-gap: 1rem;
+  }
+  header > *, footer > *, main section, main section:first-of-type > * {
+    grid-column: col-start / span 4;
+  }
+  main section:first-of-type {
+    grid-column: left-edge / span 6;
+  }
+  header{
+    padding: 1rem 0;
+  }
+  header section {
+    flex-direction: column;
+    gap: 0;
+  }
+  header menu {
+    flex-direction: column;
+    height: 0;
+    padding: 0;
+    overflow: hidden;
+    position: absolute;
+    width: 90%;
+    top: 1rem;
+    left: 5%;
+    gap: 1rem;
+    border-radius: 0.3125rem;
+    background: #FFF;
+    box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.25);
+  } 
+  footer nav {
+    text-align: center;
+    display: grid;
+    grid-template-areas: "title-1" 
+                          "menu-1"
+                          "title-2" 
+                          "menu-2"
+                          "title-3" 
+                          "menu-3"; 
+    grid-template-columns: 1fr;
+  }
+  footer nav h5{
+    max-width: none;
+    padding-top: 2rem;
   }
 }

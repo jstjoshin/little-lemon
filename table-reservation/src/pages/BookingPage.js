@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Main = () => {
+const BookingPage = () => {
 
   return (
     <main>
@@ -20,4 +20,4 @@ const Main = () => {
   );
 };
 
-export default Main;
+export default BookingPage;

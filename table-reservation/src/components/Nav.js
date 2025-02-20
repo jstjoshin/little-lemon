@@ -1,15 +1,26 @@
 import React from 'react';
+import NavMenu from "./NavMenu";
+import ContactMenu from "./ContactMenu";
+import SocialMenu from "./SocialMenu";
 
-const Nav = () => {
+const Nav = ({ isHeader = false }) => {
   return (
-    <menu>
-      <li><a href="/home">Home</a></li>
-      <li><a href="/home">About</a></li>
-      <li><a href="/home">Menu</a></li>
-      <li><a href="/home">Reservations</a></li>
-      <li><a href="/home">Order Online</a></li>
-      <li><a href="/home">Login</a></li>
-    </menu>
+    <nav>
+      {isHeader ? (
+        <>
+          <NavMenu />
+        </>
+      ) : (
+        <>
+          <h5>Doormat Navigation</h5>
+          <NavMenu />
+          <h5>Contact</h5>
+          <ContactMenu />
+          <h5>Social Media Links</h5>
+          <SocialMenu />
+        </>
+      )}
+    </nav>
   );
 };
 
