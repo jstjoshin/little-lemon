@@ -160,6 +160,20 @@ main header h2 {
   margin-top: -0.625rem;
 }
 
+/* Hero Component */
+.hero img {
+  border-radius: 1rem;
+}
+.hero-img-home {
+  width: 22.5rem;
+  height: 22.5rem;
+  object-fit: cover;
+}
+.hero-img-booking {
+  width: auto;
+  height: 16.8rem;
+}
+
 /* Footer */
 footer {
   padding: 4.375rem 0 6.25rem 0;
@@ -173,9 +187,10 @@ footer section {
   align-items: flex-start;
 }
 footer img {
-  width: 120px;
+  width: 80px;
   height: auto;
   margin-top: 0.5rem;
+  margin-right: 40px;
 }
 footer nav h5:nth-of-type(1) {
   grid-area: title-1;
@@ -230,6 +245,9 @@ footer a {
   }
   footer section {
     flex-wrap: wrap-reverse;
+  }
+  footer img {
+    margin-right: 0px;
   }
 }
 @media (max-width: 550px) { 

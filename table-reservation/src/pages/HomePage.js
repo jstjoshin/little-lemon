@@ -1,21 +1,16 @@
 import React from 'react';
+import Hero from "../components/Hero";
+import Specials from "../components/Specials";
+import Testimonials from "../components/Testimonials";
+import About from "../components/About";
 
-const HomePage = () => {
-
+const HomePage = ({heroImg}) => {
   return (
     <main>
-      <section>
-        <header>
-          <h1>Little Lemon</h1>
-          <h2>Chicago</h2>
-        </header>
-        <p>
-          Lorem ipsum dolor sit amet consectetur. Id elementum massa non lectus. Sit amet vestibulum mauris nibh dapibus. Purus nunc viverra dignissim elementum neque orci. Ultrices dignissim iaculis ornare arcu facilisi tristique ac.
-        </p>
-      </section>
-      <section>Section Placeholder</section>
-      <section>Section Placeholder</section>
-      <section>Section Placeholder</section>
+      <Hero isHomePage={true} heroImg={heroImg} />
+      <Specials />
+      <Testimonials />
+      <About />
     </main>
   );
 };
