@@ -1,12 +1,12 @@
 import React from 'react';
 import Hero from "../components/Hero";
-import Booking from "../components/Booking";
+import BookingForm from "../components/BookingForm";
 
 const BookingPage = ({heroImg}) => {
   return (
     <main>
       <Hero isHomePage={false} heroImg={heroImg} />
-      <Booking />
+      <BookingForm />
     </main>
   );
 };
