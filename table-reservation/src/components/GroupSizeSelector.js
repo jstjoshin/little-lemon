@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import Select from "react-select";
 
 const options = [
@@ -24,17 +24,19 @@ const options = [
   { value: "20 People", label: "20 People" }
 ];
 
-const GroupSizeSelector = () => {
-  const [selectedOption, setSelectedOption] = useState(options[1]);
-
+const GroupSizeSelector = ({ formData, onChange }) => {
+  useEffect(() => {
+    if (!formData.groupSize) {
+      onChange("groupSize", "2 People");
+    }
+  }, [formData.groupSize, onChange]);
   const handleChange = (option) => {
-    setSelectedOption(option);
+    onChange("groupSize", option.value);
   };
-
   return (
     <>
       <Select
-        value={selectedOption}
+        value={options.find((opt) => opt.value === formData.groupSize)}
         onChange={handleChange}
         options={options}
       />

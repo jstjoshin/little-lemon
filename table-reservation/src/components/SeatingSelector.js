@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import Select from "react-select";
 
 const options = [
@@ -6,17 +6,19 @@ const options = [
   { value: "Outside Seating", label: "Outside Seating" }
 ];
 
-const SeatingSelector = () => {
-  const [selectedOption, setSelectedOption] = useState(options[0]);
-
+const SeatingSelector = ({ formData, onChange }) => {
+  useEffect(() => {
+      if (!formData.selectedSeating) {
+        onChange("selectedSeating", "Inside Seating");
+      }
+    }, [formData.selectedSeating, onChange]);
   const handleChange = (option) => {
-    setSelectedOption(option);
+    onChange("selectedSeating", option.value);
   };
-
   return (
     <>
       <Select
-        value={selectedOption}
+        value={options.find((opt) => opt.value === formData.selectedSeating)}
         onChange={handleChange}
         options={options}
       />

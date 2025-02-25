@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Select from "react-select";
 
 const options = [
@@ -8,24 +8,21 @@ const options = [
   { value: "Anniversary", label: "Anniversary" },
 ];
 
-const OccasionSelector = () => {
-  const [selectedOption, setSelectedOption] = useState(null);
-
+const OccasionSelector = ({ formData, onChange }) => {
   const handleChange = (option) => {
-    setSelectedOption(option);
+    onChange("selectedOccasion", option.value);
   };
-
   return (
     <>
       <Select
-        value={selectedOption}
+        value={options.find((opt) => opt.value === formData.selectedOccasion)}
         onChange={handleChange}
         options={options}
         placeholder="Occasion (optional)"
         formatOptionLabel={(option, { context }) =>
           context === "value"
-            ? `Occasion: ${option.label}` // Displayed on selection
-            : option.label // Displayed in dropdown
+            ? `Occasion: ${option.label}`
+            : option.label
         }
         getOptionLabel={(option) => option.label}
         getOptionValue={(option) => option.value}

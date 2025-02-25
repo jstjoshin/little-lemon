@@ -4,7 +4,7 @@ import HeroBooking from "./HeroBooking";
 
 const Hero = ({ heroImg, isHomePage = false }) => {
   return (
-    <section class="hero">
+    <section className="hero">
       {isHomePage ? (
         <>
           <HeroHome heroImg={heroImg}/>

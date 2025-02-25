@@ -4,7 +4,7 @@ import { NavLink } from "react-router-dom";
 const HeroHome = ({heroImg}) => {
   return (
     <>
-      <img src={heroImg} alt="Server with tray of food" class="hero-img-home"/>
+      <img src={heroImg} alt="Server with tray of food" className="hero-img-home"/>
       <header>
         <h1>Little Lemon</h1>
         <h2>Chicago</h2>

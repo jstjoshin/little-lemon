@@ -92,7 +92,7 @@ a {
   font-weight: var(--font-weight-bold);
   text-decoration: none;
 }
-header, main, main section:first-of-type, footer {
+header, main, .hero, footer {
   display: grid;
   grid-template-columns: minmax(2rem, 1fr) minmax(auto, 860px) minmax(2rem, 1fr);
   column-gap: 20px;
@@ -144,13 +144,6 @@ main {
 main section {
   grid-column: 2;
 }
-main section:first-of-type {
-  grid-column: 1 / span 3;
-  background: var(--primary-green);
-}
-main section:first-of-type > * {
-  grid-column: 2;
-}
 main header {
   display: flex;
   flex-direction: column;
@@ -161,6 +154,13 @@ main header h2 {
 }
 
 /* Hero Component */
+.hero {
+  grid-column: 1 / span 3;
+  background: var(--primary-green);
+}
+.hero > * {
+  grid-column: 2;
+}
 .hero img {
   border-radius: 1rem;
 }
@@ -250,7 +250,7 @@ footer a {
 
 /* Breakpoint changes */
 @media (max-width: 768px) { 
-  header, main, main section:first-of-type, footer {
+  header, main, .hero, footer {
     grid-template-columns: [left-edge] 1rem minmax(auto, 860px) 1rem;
   }
   header menu {
@@ -265,14 +265,14 @@ footer a {
   }
 }
 @media (max-width: 550px) { 
-  header, main, main section:first-of-type, footer {
+  header, main, .hero, footer {
     grid-template-columns: [left-edge] 1rem repeat(4, [col-start] 1fr) 1rem;
     column-gap: 1rem;
   }
-  header > *, footer > *, main section, main section:first-of-type > * {
+  header > *, footer > *, main section, .hero > * {
     grid-column: col-start / span 4;
   }
-  main section:first-of-type {
+  .hero {
     grid-column: left-edge / span 6;
   }
   header{

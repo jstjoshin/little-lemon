@@ -6,7 +6,10 @@ const BookingPage = ({heroImg}) => {
   return (
     <main>
       <Hero isHomePage={false} heroImg={heroImg} />
-      <BookingForm />
+      <section>
+        <h1>Reserve a Table</h1>
+        <BookingForm />
+      </section>
     </main>
   );
 };

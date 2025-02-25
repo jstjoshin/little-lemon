@@ -3,7 +3,7 @@ import React from 'react';
 const HeroBooking = ({heroImg}) => {
   return (
     <>
-      <img src={heroImg} alt="Dining table with food and drink" class="hero-img-booking"/>
+      <img src={heroImg} alt="Dining table with food and drink" className="hero-img-booking"/>
     </>
   );
 };
