@@ -7,6 +7,8 @@ const DateSelector = ({ formData, onChange }) => {
   useEffect(() => {
     if (!formData.selectedDate) {
       onChange("selectedDate", new Date().toLocaleDateString());
+    } else {
+      setSelectedDate(new Date(formData.selectedDate));
     }
   }, [formData.selectedDate, onChange]);
 
@@ -15,10 +17,10 @@ const DateSelector = ({ formData, onChange }) => {
       const today = new Date().toLocaleDateString();
       const isToday = new Date(value).toLocaleDateString() === today;
       return (
-        <button 
-          type="button" 
-          className={className} 
-          onClick={onClick} 
+        <button
+          type="button"
+          className={className}
+          onClick={onClick}
           ref={ref}
         >
           {isToday ? "Today" : value}
@@ -31,7 +33,7 @@ const DateSelector = ({ formData, onChange }) => {
     const formattedDate = date.toLocaleDateString();
     onChange("selectedDate", formattedDate);
   };
-  
+
   return (
     <DatePicker
       selected={selectedDate}

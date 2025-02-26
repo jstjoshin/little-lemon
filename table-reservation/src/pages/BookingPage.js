@@ -1,6 +1,6 @@
 import React from 'react';
 import Hero from "../components/Hero";
-import BookingForm from "../components/BookingForm";
+import BookingMain from "../components/BookingMain";
 
 const BookingPage = ({heroImg}) => {
   return (
@@ -8,7 +8,7 @@ const BookingPage = ({heroImg}) => {
       <Hero isHomePage={false} heroImg={heroImg} />
       <section>
         <h1>Reserve a Table</h1>
-        <BookingForm />
+        <BookingMain />
       </section>
     </main>
   );

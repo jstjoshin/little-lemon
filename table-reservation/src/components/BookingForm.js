@@ -6,7 +6,7 @@ import SeatingSelector from "../components/SeatingSelector";
 import TimeOptions from "../components/TimeOptions";
 import ContactDetails from "../components/ContactDetails";
 
-const BookingForm = () => {
+const BookingForm = ({ availableTimes, setAvailableTimes }) => {
 
   const [formData, setFormData] = useState({
     selectedDate: "",
@@ -27,7 +27,7 @@ const BookingForm = () => {
   const handleSubmit = (e, field) => {
     e.preventDefault();
     setFormData({
-      selectedDate: "",
+      selectedDate: new Date().toLocaleDateString(),
       groupSize: "",
       selectedSeating: "",
       selectedOccasion: "",
@@ -43,21 +43,21 @@ const BookingForm = () => {
   return (
     <form onSubmit={handleSubmit}>
       <fieldset>
-      <section className="booking-selectors">
-        <DateSelector formData={formData} onChange={handleChange} />
-        <GroupSizeSelector formData={formData} onChange={handleChange} />
-        <SeatingSelector formData={formData} onChange={handleChange} />
-        <OccasionSelector formData={formData} onChange={handleChange} />
-      </section>
-      <section>
-        <h3>Select a Time</h3>
-        <TimeOptions formData={formData} onChange={handleChange} />
-      </section>
-      <section>
-        <h3>Contact Information</h3>
-        <ContactDetails formData={formData} onChange={handleChange} />
-      </section>
-      <button type="submit">Complete Reservation</button>
+        <section className="booking-selectors">
+          <DateSelector formData={formData} onChange={handleChange} />
+          <GroupSizeSelector formData={formData} onChange={handleChange} />
+          <SeatingSelector formData={formData} onChange={handleChange} />
+          <OccasionSelector formData={formData} onChange={handleChange} />
+        </section>
+        <section>
+          <h3>Select a Time</h3>
+          <TimeOptions formData={formData} onChange={handleChange} availableTimes={availableTimes} />
+        </section>
+        <section>
+          <h3>Contact Information</h3>
+          <ContactDetails formData={formData} onChange={handleChange} />
+        </section>
+        <button type="submit">Complete Reservation</button>
       </fieldset>
     </form>
   );
