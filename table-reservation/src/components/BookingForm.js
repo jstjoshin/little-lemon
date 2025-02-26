@@ -6,7 +6,7 @@ import SeatingSelector from "../components/SeatingSelector";
 import TimeOptions from "../components/TimeOptions";
 import ContactDetails from "../components/ContactDetails";
 
-const BookingForm = ({ availableTimes, setAvailableTimes }) => {
+const BookingForm = ({ availableTimes, dispatch }) => {
 
   const [formData, setFormData] = useState({
     selectedDate: "",
@@ -22,6 +22,9 @@ const BookingForm = ({ availableTimes, setAvailableTimes }) => {
 
   const handleChange = (field, value) => {
     setFormData((dataSet) => ({ ...dataSet, [field]: value }));
+    if (field === "selectedDate") {
+      dispatch({ type: "UPDATE_TIMES", payload: value });
+    }
   };
 
   const handleSubmit = (e, field) => {
@@ -44,14 +47,14 @@ const BookingForm = ({ availableTimes, setAvailableTimes }) => {
     <form onSubmit={handleSubmit}>
       <fieldset>
         <section className="booking-selectors">
-          <DateSelector formData={formData} onChange={handleChange} />
+          <DateSelector formData={formData} onChange={handleChange} dispatch={dispatch}/>
           <GroupSizeSelector formData={formData} onChange={handleChange} />
           <SeatingSelector formData={formData} onChange={handleChange} />
           <OccasionSelector formData={formData} onChange={handleChange} />
         </section>
         <section>
           <h3>Select a Time</h3>
-          <TimeOptions formData={formData} onChange={handleChange} availableTimes={availableTimes} />
+          <TimeOptions formData={formData} onChange={handleChange} availableTimes={availableTimes} dispatch={dispatch} />
         </section>
         <section>
           <h3>Contact Information</h3>

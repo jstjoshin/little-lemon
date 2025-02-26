@@ -4,7 +4,9 @@ const TimeOptions = ({ formData, onChange, availableTimes }) => {
 
   return (
     <section>
-      {availableTimes.map(({ time, available }) => (
+      {availableTimes
+      .filter(({ available }) => available)
+      .map(({ time, available }) => (
         <button
           key={time}
           type="button"
