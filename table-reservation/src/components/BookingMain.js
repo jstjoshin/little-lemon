@@ -17,16 +17,18 @@ const initialAvailableTimes = [
   { time: "11:30 PM", available: true },
 ];
 
-const initializeTimes = () => {
-  //return initialAvailableTimes;
+export const initializeTimes = () => {
+  return initialAvailableTimes;
+  /*
   const dynamicTimes = initialAvailableTimes;
 
     return dynamicTimes.map((timeSlot) => ({
         ...timeSlot,
         available: Math.random() > 0.5 // Example: Randomly set availability
     }));
+  */
 };
-const updateTimes = (state, action) => {
+export const updateTimes = (state, action) => {
   if (action.type === "UPDATE_TIMES") {
       return initializeTimes(action.payload);
   }

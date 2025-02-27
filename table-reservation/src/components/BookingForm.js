@@ -29,6 +29,7 @@ const BookingForm = ({ availableTimes, dispatch }) => {
 
   const handleSubmit = (e, field) => {
     e.preventDefault();
+    dispatch({ type: "SUBMIT_FORM", payload: formData });
     setFormData({
       selectedDate: new Date().toLocaleDateString(),
       groupSize: "",
