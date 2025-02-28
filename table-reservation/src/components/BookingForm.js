@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import DateSelector from "../components/DateSelector";
 import GroupSizeSelector from "../components/GroupSizeSelector";
 import OccasionSelector from "../components/OccasionSelector";
@@ -6,42 +6,27 @@ import SeatingSelector from "../components/SeatingSelector";
 import TimeOptions from "../components/TimeOptions";
 import ContactDetails from "../components/ContactDetails";
 
-const BookingForm = ({ availableTimes, dispatch }) => {
-
-  const [formData, setFormData] = useState({
-    selectedDate: "",
-    groupSize: "",
-    selectedSeating: "",
-    selectedOccasion: "",
-    selectedTime: "",
-    firstName: "",
-    lastName: "",
-    userEmail: "",
-    specialRequests: "",
-  });
+const BookingForm = ({ availableTimes, dispatch, formData, onFormChange, resetFormData }) => {
 
   const handleChange = (field, value) => {
-    setFormData((dataSet) => ({ ...dataSet, [field]: value }));
+    onFormChange(field, value);
     if (field === "selectedDate") {
       dispatch({ type: "UPDATE_TIMES", payload: value });
     }
   };
 
-  const handleSubmit = (e, field) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch({ type: "SUBMIT_FORM", payload: formData });
-    setFormData({
-      selectedDate: new Date().toLocaleDateString(),
-      groupSize: "",
-      selectedSeating: "",
-      selectedOccasion: "",
-      selectedTime: "",
-      firstName: "",
-      lastName: "",
-      userEmail: "",
-      specialRequests: "",
-    });
-    console.log("form submitted", formData);
+    const submissionSuccess = window.submitAPI(formData);
+
+    if (submissionSuccess) {
+      console.log("Form submitted successfully to the API", formData);
+      dispatch({ type: "SUBMIT_FORM", payload: formData });
+      resetFormData();
+    } else {
+      console.error("Form submission to API failed.");
+      alert("Form submission failed. Please try again.");
+    }
   };
 
   return (
