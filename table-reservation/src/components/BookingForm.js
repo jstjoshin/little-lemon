@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import DateSelector from "../components/DateSelector";
 import GroupSizeSelector from "../components/GroupSizeSelector";
 import OccasionSelector from "../components/OccasionSelector";
@@ -7,7 +8,7 @@ import TimeOptions from "../components/TimeOptions";
 import ContactDetails from "../components/ContactDetails";
 
 const BookingForm = ({ availableTimes, dispatch, formData, onFormChange, resetFormData }) => {
-
+  const navigate = useNavigate();
   const handleChange = (field, value) => {
     onFormChange(field, value);
     if (field === "selectedDate") {
@@ -22,6 +23,7 @@ const BookingForm = ({ availableTimes, dispatch, formData, onFormChange, resetFo
     if (submissionSuccess) {
       console.log("Form submitted successfully to the API", formData);
       dispatch({ type: "SUBMIT_FORM", payload: formData });
+      navigate("/confirmed-booking");
       resetFormData();
     } else {
       console.error("Form submission to API failed.");
