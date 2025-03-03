@@ -6,20 +6,23 @@ const TimeOptions = ({ formData, onChange, availableTimes }) => {
     <section>
       {availableTimes
       .filter(({ available }) => available)
-      .map(({ time, available }) => (
+      .map(({ rawTime, displayTime, available }) => (
         <button
-          key={time}
+          key={rawTime}
           type="button"
-          onClick={() => onChange("selectedTime", time)}
+          onClick={() => {
+            onChange("selectedTimeRaw", rawTime)
+            onChange("selectedTimeDisplay", displayTime)
+          }}
           disabled={!available}
           style={{
             margin: "5px",
             padding: "10px",
-            backgroundColor: formData.selectedTime === time ? "#512DA8" : "#ddd",
-            color: formData.selectedTime === time ? "#fff" : "#000",
+            backgroundColor: formData.selectedTimeDisplay === displayTime ? "#512DA8" : "#ddd",
+            color: formData.selectedTimeDisplay === displayTime ? "#fff" : "#000",
           }}
         >
-          {time}
+          {displayTime}
         </button>
       ))}
     </section>
