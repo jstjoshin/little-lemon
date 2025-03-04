@@ -7,12 +7,12 @@ import SeatingSelector from "../components/SeatingSelector";
 import TimeOptions from "../components/TimeOptions";
 import ContactDetails from "../components/ContactDetails";
 
-const BookingForm = ({ availableTimes, dispatch, formData, onFormChange, resetFormData }) => {
+const BookingForm = ({ availableTimes, dispatch, formData, onFormChange, resetFormData, reservedTimes, setReservedTimes }) => {
   const navigate = useNavigate();
   const handleChange = (field, value) => {
     onFormChange(field, value);
     if (field === "selectedDate") {
-      dispatch({ type: "UPDATE_TIMES", payload: value });
+      dispatch({ type: "UPDATE_TIMES", payload: { times: window.fetchAPI(new Date(value)), date: value, reservedTimes } });
     }
   };
 
@@ -22,6 +22,14 @@ const BookingForm = ({ availableTimes, dispatch, formData, onFormChange, resetFo
 
     if (submissionSuccess) {
       console.log("Form submitted successfully to the API", formData);
+      setReservedTimes((prev) => {
+        const updatedTimes = {
+          ...prev,
+          [formData.selectedDate]: [...(prev[formData.selectedDate] || []), formData.selectedTimeRaw],
+        };
+        localStorage.setItem("reservedTimes", JSON.stringify(updatedTimes));
+        return updatedTimes;
+      });
       dispatch({ type: "SUBMIT_FORM", payload: formData });
       navigate("/confirmed-booking");
       resetFormData();

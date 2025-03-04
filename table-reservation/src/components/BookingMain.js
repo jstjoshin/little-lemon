@@ -11,16 +11,23 @@ const formatTime = (time) => {
   return `${formattedHours}:${minutes} ${period}`;
 };
 
+const loadReservedTimes = () => {
+  const storedTimes = localStorage.getItem("reservedTimes");
+  return storedTimes ? JSON.parse(storedTimes) : {};
+};
+
 export const initializeTimes = () => {
   return initialAvailableTimes;
 };
 
 export const updateTimes = (state, action) => {
-  if (action.type === "UPDATE_TIMES" && Array.isArray(action.payload)) {
-    return action.payload.map(time => ({
-        rawTime: time,
-        displayTime: formatTime(time),
-        available: true
+  if (action.type === "UPDATE_TIMES" && Array.isArray(action.payload.times)) {
+    const { date, reservedTimes } = action.payload;
+
+    return action.payload.times.map((time) => ({
+      rawTime: time,
+      displayTime: formatTime(time),
+      available: !(reservedTimes[date]?.includes(time)), // Mark unavailable if reserved
     }));
   }
   return state;
@@ -28,7 +35,8 @@ export const updateTimes = (state, action) => {
 
 const Main = () => {
   const [availableTimes, dispatch] = useReducer(updateTimes, [], initializeTimes);
-  
+  const [reservedTimes, setReservedTimes] = useState(loadReservedTimes);
+
   const [formData, setFormData] = useState({
     selectedDate: "",
     groupSize: "",
@@ -56,22 +64,30 @@ const Main = () => {
       specialRequests: "",
     });
   };
+
   const handleFormChange = (field, value) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
+
   useEffect(() => {
-    const today = new Date();
-    const apiTimes = window.fetchAPI(today);
-    const formattedTimes = apiTimes.map(time => time);
-    dispatch({ type: "UPDATE_TIMES", payload: formattedTimes });
-  }, []);
+    const today = new Date().toLocaleDateString();
+    const apiTimes = window.fetchAPI(new Date());
+    dispatch({ type: "UPDATE_TIMES", payload: { times: apiTimes, date: today, reservedTimes } });
+  }, [reservedTimes]);
+
   useEffect(() => {
     if (formData.selectedDate) {
-        const apiTimes = window.fetchAPI(new Date(formData.selectedDate));
-        const formattedTimes = apiTimes.map(time => time);
-        dispatch({ type: "UPDATE_TIMES", payload: formattedTimes });
+      const apiTimes = window.fetchAPI(new Date(formData.selectedDate));
+      dispatch({
+        type: "UPDATE_TIMES",
+        payload: { times: apiTimes, date: formData.selectedDate, reservedTimes },
+      });
     }
-}, [formData.selectedDate]);
+  }, [formData.selectedDate, reservedTimes]);
+
+  useEffect(() => {
+    localStorage.setItem("reservedTimes", JSON.stringify(reservedTimes));
+  }, [reservedTimes]);
 
   return (
     <>
@@ -81,6 +97,8 @@ const Main = () => {
         formData={formData}
         onFormChange={handleFormChange}
         resetFormData={resetFormData}
+        reservedTimes={reservedTimes}
+        setReservedTimes={setReservedTimes}
       />
     </>
   );
