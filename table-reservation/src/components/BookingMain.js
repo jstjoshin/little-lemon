@@ -1,8 +1,6 @@
 import React, { useReducer, useEffect, useState } from "react";
 import BookingForm from "../components/BookingForm";
 
-const initialAvailableTimes = [];
-
 const formatTime = (time) => {
   let [hours, minutes] = time.split(":");
   let parsedHours = parseInt(hours, 10);
@@ -17,7 +15,8 @@ const loadReservedTimes = () => {
 };
 
 export const initializeTimes = () => {
-  return initialAvailableTimes;
+  const apiTimes = window.fetchAPI(new Date());
+  return Array.isArray(apiTimes) ? apiTimes : [];
 };
 
 export const updateTimes = (state, action) => {
@@ -27,15 +26,24 @@ export const updateTimes = (state, action) => {
     return action.payload.times.map((time) => ({
       rawTime: time,
       displayTime: formatTime(time),
-      available: !(reservedTimes[date]?.includes(time)), // Mark unavailable if reserved
+      available: !(reservedTimes[date]?.includes(time)),
     }));
   }
   return state;
 };
 
 const Main = () => {
-  const [availableTimes, dispatch] = useReducer(updateTimes, [], initializeTimes);
+  const [availableTimes, dispatch] = useReducer(updateTimes, []);
   const [reservedTimes, setReservedTimes] = useState(loadReservedTimes);
+  const [timesLoading, setTimesLoading] = useState(true);
+  const [timesErrorMessage, setTimesErrorMessage] = useState(false);
+
+  const apiCheck = () => {
+    console.warn("API is unavailable or blocked. Loading default empty times.");
+    setTimesErrorMessage(true);
+    setTimesLoading(false);
+    return [];
+  };
 
   const [formData, setFormData] = useState({
     selectedDate: "",
@@ -70,18 +78,37 @@ const Main = () => {
   };
 
   useEffect(() => {
-    const today = new Date().toLocaleDateString();
-    const apiTimes = window.fetchAPI(new Date());
-    dispatch({ type: "UPDATE_TIMES", payload: { times: apiTimes, date: today, reservedTimes } });
+    const fetchInitialTimes = async () => {
+      if (!window.fetchAPI) {
+        apiCheck();
+        return
+      }
+      const apiTimes = await initializeTimes();
+      const today = new Date().toLocaleDateString()
+      dispatch({
+        type: "UPDATE_TIMES",
+        payload: { times: apiTimes, date: today, reservedTimes },
+      });
+      setTimesLoading(false);
+    };
+    fetchInitialTimes();
   }, [reservedTimes]);
 
   useEffect(() => {
     if (formData.selectedDate) {
-      const apiTimes = window.fetchAPI(new Date(formData.selectedDate));
-      dispatch({
-        type: "UPDATE_TIMES",
-        payload: { times: apiTimes, date: formData.selectedDate, reservedTimes },
-      });
+      const fetchNewTimes = async () => {
+        if (!window.fetchAPI) {
+          apiCheck();
+          return
+        }
+        const apiTimes = window.fetchAPI(new Date(formData.selectedDate));
+        dispatch({
+          type: "UPDATE_TIMES",
+          payload: { times: apiTimes, date: formData.selectedDate, reservedTimes },
+        });
+        setTimesLoading(false);
+      };
+      fetchNewTimes();
     }
   }, [formData.selectedDate, reservedTimes]);
 
@@ -99,6 +126,8 @@ const Main = () => {
         resetFormData={resetFormData}
         reservedTimes={reservedTimes}
         setReservedTimes={setReservedTimes}
+        timesErrorMessage={timesErrorMessage}
+        timesLoading={timesLoading}
       />
     </>
   );

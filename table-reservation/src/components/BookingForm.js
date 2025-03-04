@@ -7,11 +7,16 @@ import SeatingSelector from "../components/SeatingSelector";
 import TimeOptions from "../components/TimeOptions";
 import ContactDetails from "../components/ContactDetails";
 
-const BookingForm = ({ availableTimes, dispatch, formData, onFormChange, resetFormData, reservedTimes, setReservedTimes }) => {
+const BookingForm = ({ availableTimes, dispatch, formData, onFormChange, resetFormData, reservedTimes, setReservedTimes, timesErrorMessage, timesLoading }) => {
   const navigate = useNavigate();
-  const handleChange = (field, value) => {
+  const handleChange = async (field, value) => {
     onFormChange(field, value);
     if (field === "selectedDate") {
+      if (!window.fetchAPI) {
+        console.warn("API is unavailable. Cannot fetch available times.");
+        dispatch({ type: "UPDATE_TIMES", payload: { times: [], date: value, reservedTimes } });
+        return;
+      }
       dispatch({ type: "UPDATE_TIMES", payload: { times: window.fetchAPI(new Date(value)), date: value, reservedTimes } });
     }
   };
@@ -50,7 +55,7 @@ const BookingForm = ({ availableTimes, dispatch, formData, onFormChange, resetFo
         </section>
         <section>
           <h3>Select a Time</h3>
-          <TimeOptions formData={formData} onChange={handleChange} availableTimes={availableTimes} dispatch={dispatch} />
+          <TimeOptions formData={formData} onChange={handleChange} availableTimes={availableTimes} dispatch={dispatch} timesErrorMessage={timesErrorMessage} timesLoading={timesLoading} />
         </section>
         <section>
           <h3>Contact Information</h3>
