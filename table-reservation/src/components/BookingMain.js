@@ -9,7 +9,7 @@ const formatTime = (time) => {
   return `${formattedHours}:${minutes} ${period}`;
 };
 
-const loadReservedTimes = () => {
+export const loadReservedTimes = () => {
   const storedTimes = localStorage.getItem("reservedTimes");
   return storedTimes ? JSON.parse(storedTimes) : {};
 };
