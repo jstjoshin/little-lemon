@@ -7,7 +7,7 @@ import SeatingSelector from "../components/SeatingSelector";
 import TimeOptions from "../components/TimeOptions";
 import ContactDetails from "../components/ContactDetails";
 
-const BookingForm = ({ availableTimes, dispatch, formData, onFormChange, resetFormData, reservedTimes, setReservedTimes, timesErrorMessage, timesLoading }) => {
+const BookingForm = ({ availableTimes, dispatch, formData, onFormChange, resetFormData, reservedTimes, setReservedTimes, timesErrorMessage, timesLoading, isFormValid, errors, onBlur }) => {
   const navigate = useNavigate();
   const handleChange = async (field, value) => {
     onFormChange(field, value);
@@ -23,6 +23,7 @@ const BookingForm = ({ availableTimes, dispatch, formData, onFormChange, resetFo
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!isFormValid) return;
     const submissionSuccess = window.submitAPI(formData);
 
     if (submissionSuccess) {
@@ -54,14 +55,14 @@ const BookingForm = ({ availableTimes, dispatch, formData, onFormChange, resetFo
           <OccasionSelector formData={formData} onChange={handleChange} />
         </section>
         <section>
-          <h3>Select a Time</h3>
+          <h3>Select a Time</h3><p>(required)</p>
           <TimeOptions formData={formData} onChange={handleChange} availableTimes={availableTimes} dispatch={dispatch} timesErrorMessage={timesErrorMessage} timesLoading={timesLoading} />
         </section>
         <section>
           <h3>Contact Information</h3>
-          <ContactDetails formData={formData} onChange={handleChange} />
+          <ContactDetails formData={formData} onChange={handleChange} errors={errors} onBlur={onBlur} />
         </section>
-        <button type="submit">Complete Reservation</button>
+        <button type="submit" disabled={!isFormValid}>Complete Reservation</button>
       </fieldset>
     </form>
   );

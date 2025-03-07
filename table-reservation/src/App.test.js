@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, act } from '@testing-library/react';
 import BookingForm from "./components/BookingForm";
 import { initializeTimes, updateTimes, loadReservedTimes } from './components/BookingMain';
 import "@testing-library/jest-dom";
@@ -18,12 +18,27 @@ afterEach(() => {
   delete global.submitAPI;
 });
 
+const mockErrors = {
+  firstName: "",
+  lastName: "",
+  userEmail: "",
+  selectedTimeRaw: "",
+};
+
 test('rendering the BookingForm heading', () => {
   const mockDispatch = jest.fn();
   const mockAvailableTimes = [{ rawTime: "17:30", displayTime: "5:30 PM", available: true }];
   const mockFormData = { selectedDate: "", selectedTimeRaw: "", selectedTimeDisplay: "" };
-  render(<BookingForm availableTimes={mockAvailableTimes} dispatch={mockDispatch} formData={mockFormData} onFormChange={() => {}}
-  resetFormData={() => {}} />);
+  render(
+    <BookingForm
+      availableTimes={mockAvailableTimes}
+      dispatch={mockDispatch}
+      formData={mockFormData}
+      onFormChange={() => {}}
+      resetFormData={() => {}}
+      errors={mockErrors}
+    />
+  );
   const headingElement = screen.getByText("Contact Information");
   expect(headingElement).toBeInTheDocument();
 });
@@ -87,6 +102,8 @@ test("user can fill out and submit the BookingForm", () => {
       onFormChange={mockOnFormChange}
       resetFormData={mockResetFormData}
       setReservedTimes={mockSetReservedTimes}
+      errors={mockErrors}
+      isFormValid={true}
     />
   );
   fireEvent.change(screen.getByLabelText("First Name*"), { target: { value: "Jason" } });
@@ -94,7 +111,7 @@ test("user can fill out and submit the BookingForm", () => {
   fireEvent.change(screen.getByLabelText("Email*"), { target: { value: "jb@mail.com" } });
   fireEvent.change(screen.getByLabelText("Special Requests (optional)"), { target: { value: "A table with a view!" } });
   fireEvent.click(screen.getByText("Complete Reservation"));
-
+  fireEvent.click(screen.getByText("Complete Reservation"));
   expect(global.submitAPI).toHaveBeenCalledWith(
     expect.objectContaining({
       selectedDate: mockDate,
@@ -162,6 +179,8 @@ test("should update localStorage when a reservation is submitted", () => {
       onFormChange={mockOnFormChange}
       resetFormData={mockResetFormData}
       setReservedTimes={mockSetReservedTimes}
+      errors={mockErrors}
+      isFormValid={true}
     />
   );
   fireEvent.click(screen.getByText("Complete Reservation"));

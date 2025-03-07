@@ -1,4 +1,5 @@
 import React, { useReducer, useEffect, useState } from "react";
+import * as Yup from "yup";
 import BookingForm from "../components/BookingForm";
 
 const formatTime = (time) => {
@@ -37,6 +38,9 @@ const Main = () => {
   const [reservedTimes, setReservedTimes] = useState(loadReservedTimes);
   const [timesLoading, setTimesLoading] = useState(true);
   const [timesErrorMessage, setTimesErrorMessage] = useState(false);
+  const [errors, setErrors] = useState({});
+  const [isFormValid, setIsFormValid] = useState(false);
+  const [touchedFields, setTouchedFields] = useState({});
 
   const apiCheck = () => {
     console.warn("API is unavailable or blocked. Loading default empty times.");
@@ -60,7 +64,7 @@ const Main = () => {
 
   const resetFormData = () => {
     setFormData({
-      selectedDate: new Date().toLocaleDateString(),
+      selectedDate: "",
       groupSize: "",
       selectedSeating: "",
       selectedOccasion: "",
@@ -73,8 +77,50 @@ const Main = () => {
     });
   };
 
+  const validationSchema = Yup.object({
+    selectedTimeRaw: Yup.string()
+      .required(),
+    firstName: Yup.string()
+      .min(2, "Minimum of 2 characters are required")
+      .max(50, "Maximum of 50 characters is allowed")
+      .required("First name is required"),
+    lastName: Yup.string()
+      .min(2, "Minimum of 2 characters are required")
+      .max(50, "Maximum of 50 characters is allowed")
+      .required("Last name is required"),
+    userEmail: Yup.string()
+      .email("Please enter a valid email, like name@email.com")
+      .required("Email is required"),
+    specialRequests: Yup.string()
+      .max(500, "Maximum of 500 characters is allowed")
+  });
+
+  const validateField = async (field, value) => {
+    try {
+      await validationSchema.validateAt(field, { [field]: value });
+      setErrors((prev) => ({ ...prev, [field]: "" }));
+    } catch (error) {
+      setErrors((prev) => ({ ...prev, [field]: error.message }));
+    }
+  };
+
   const handleFormChange = (field, value) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
+    setFormData((prev) => {
+      let updatedForm = { ...prev, [field]: value };
+      if (field === "selectedDate") {
+        updatedForm.selectedTimeRaw = "";
+        updatedForm.selectedTimeDisplay = "";
+      }
+      if (touchedFields[field]) {
+        validateField(field, value);
+      }
+      return updatedForm;
+    });
+  };
+
+  const handleBlur = (field) => {
+    setTouchedFields((prev) => ({ ...prev, [field]: true }));
+    validateField(field, formData[field]);
   };
 
   useEffect(() => {
@@ -116,6 +162,13 @@ const Main = () => {
     localStorage.setItem("reservedTimes", JSON.stringify(reservedTimes));
   }, [reservedTimes]);
 
+  useEffect(() => {
+    validationSchema
+      .validate(formData, { abortEarly: false })
+      .then(() => setIsFormValid(true))
+      .catch(() => setIsFormValid(false));
+  }, [formData, validationSchema]);
+
   return (
     <>
       <BookingForm
@@ -123,11 +176,14 @@ const Main = () => {
         dispatch={dispatch}
         formData={formData}
         onFormChange={handleFormChange}
+        onBlur={handleBlur}
         resetFormData={resetFormData}
         reservedTimes={reservedTimes}
         setReservedTimes={setReservedTimes}
         timesErrorMessage={timesErrorMessage}
         timesLoading={timesLoading}
+        isFormValid={isFormValid}
+        errors={errors}
       />
     </>
   );

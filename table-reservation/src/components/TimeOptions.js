@@ -27,8 +27,8 @@ const TimeOptions = ({ formData, onChange, availableTimes, timesLoading, timesEr
             key={rawTime}
             type="button"
             onClick={() => {
-              onChange("selectedTimeRaw", rawTime)
-              onChange("selectedTimeDisplay", displayTime)
+              onChange("selectedTimeRaw", rawTime);
+              onChange("selectedTimeDisplay", displayTime);
             }}
             disabled={!available}
             style={{
