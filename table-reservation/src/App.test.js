@@ -1,5 +1,6 @@
-import { render, screen, fireEvent, act } from '@testing-library/react';
+import { render, screen, fireEvent, act, waitFor } from '@testing-library/react';
 import BookingForm from "./components/BookingForm";
+import BookingMain from "./components/BookingMain";
 import { initializeTimes, updateTimes, loadReservedTimes } from './components/BookingMain';
 import "@testing-library/jest-dom";
 
@@ -24,6 +25,12 @@ const mockErrors = {
   userEmail: "",
   selectedTimeRaw: "",
 };
+
+const mockDate = new Date().toLocaleDateString("en-US", {
+  month: "numeric",
+  day: "numeric",
+  year: "numeric",
+});
 
 test('rendering the BookingForm heading', () => {
   const mockDispatch = jest.fn();
@@ -71,11 +78,6 @@ test('updateTimes should update times and exclude reserved ones', () => {
 
 test("user can fill out and submit the BookingForm", () => {
   const mockDispatch = jest.fn();
-  const mockDate = new Date().toLocaleDateString("en-US", {
-    month: "numeric",
-    day: "numeric",
-    year: "numeric",
-  });
   let mockFormData = {
     selectedDate: mockDate,
     groupSize: "2 People",
@@ -111,7 +113,6 @@ test("user can fill out and submit the BookingForm", () => {
   fireEvent.change(screen.getByLabelText("Email*"), { target: { value: "jb@mail.com" } });
   fireEvent.change(screen.getByLabelText("Special Requests (optional)"), { target: { value: "A table with a view!" } });
   fireEvent.click(screen.getByText("Complete Reservation"));
-  fireEvent.click(screen.getByText("Complete Reservation"));
   expect(global.submitAPI).toHaveBeenCalledWith(
     expect.objectContaining({
       selectedDate: mockDate,
@@ -144,11 +145,6 @@ test("should return parsed data when localStorage contains reserved times", () =
 test("should update localStorage when a reservation is submitted", () => {
   localStorage.clear();
   const mockDispatch = jest.fn();
-  const mockDate = new Date().toLocaleDateString("en-US", {
-    month: "numeric",
-    day: "numeric",
-    year: "numeric",
-  });
   let mockFormData = {
     selectedDate: mockDate,
     groupSize: "2 People",
@@ -192,4 +188,66 @@ test("should update localStorage when a reservation is submitted", () => {
   expect(mockNavigate).toHaveBeenCalledWith("/confirmed-booking");
 });
 
+test("validates that clicked but empty required fields show errors and prevent form submission", () => {
+  render(<BookingMain />);
+  const firstNameInput = screen.getByLabelText("First Name*");
+  const lastNameInput = screen.getByLabelText("Last Name*");
+  const emailInput = screen.getByLabelText("Email*");
+  const submitBtn = screen.getByText("Complete Reservation");
+  fireEvent.blur(firstNameInput);
+  waitFor(() => expect(screen.getByText("First name is required")).toBeInTheDocument());
+  fireEvent.blur(lastNameInput);
+  waitFor(() => expect(screen.getByText("Last name is required")).toBeInTheDocument());
+  fireEvent.blur(emailInput);
+  waitFor(() => expect(screen.getByText("Email is required")).toBeInTheDocument());
+  fireEvent.click(submitBtn);
+  waitFor(() => expect(global.submitAPI).not.toHaveBeenCalled());
+  waitFor(() => expect(mockNavigate).not.toHaveBeenCalledWith("/confirmed-booking"));
+});
+
+test("validates time option not selected prevents form submission", () => {
+  render(<BookingMain />);
+  const firstNameInput = screen.getByLabelText("First Name*");
+  const lastNameInput = screen.getByLabelText("Last Name*");
+  const emailInput = screen.getByLabelText("Email*");
+  const submitBtn = screen.getByText("Complete Reservation");
+  fireEvent.change(firstNameInput, { target: { value: "Jason" } });
+  waitFor(() => expect(firstNameInput.value).toBe("Jason"));
+  fireEvent.change(lastNameInput, { target: { value: "Bourne" } });
+  waitFor(() => expect(lastNameInput.value).toBe("Bourne"));
+  fireEvent.change(emailInput, { target: { value: "jb@mail.com" } });
+  waitFor(() => expect(emailInput.value).toBe("jb@mail.com"));
+  fireEvent.click(submitBtn);
+  waitFor(() => expect(global.submitAPI).not.toHaveBeenCalled());
+  waitFor(() => expect(mockNavigate).not.toHaveBeenCalledWith("/confirmed-booking"));
+});
+
+test("validates all required options filed or selected allows form submission", () => {
+  global.fetchAPI = jest.fn(() => ["17:00"]);
+  const availableTimes = [{ rawTime: "17:00", displayTime: "5:00 PM", available: true }];
+  render(
+    <BookingMain
+      availableTimes={availableTimes}
+    />
+  );
+  const firstNameInput = screen.getByLabelText("First Name*");
+  const lastNameInput = screen.getByLabelText("Last Name*");
+  const emailInput = screen.getByLabelText("Email*");
+  const timeBtn = screen.getByRole("button", { name: "5:00 PM" });
+  const submitBtn = screen.getByText("Complete Reservation");
+  fireEvent.change(firstNameInput, { target: { value: "Jason" } });
+  waitFor(() => expect(firstNameInput.value).toBe("Jason"));
+  fireEvent.change(lastNameInput, { target: { value: "Bourne" } });
+  waitFor(() => expect(lastNameInput.value).toBe("Bourne"));
+  fireEvent.change(emailInput, { target: { value: "jb@mail.com" } });
+  waitFor(() => expect(emailInput.value).toBe("jb@mail.com"));
+  fireEvent.click(timeBtn);
+  fireEvent.click(submitBtn);
+  waitFor(() => expect(global.submitAPI).toHaveBeenCalledWith(
+    expect.objectContaining({
+      selectedTimeRaw: "17:00",
+    })
+  ));
+  waitFor(() => expect(mockNavigate).toHaveBeenCalledWith("/confirmed-booking"));
+});
 
