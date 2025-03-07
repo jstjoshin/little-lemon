@@ -24,7 +24,7 @@ const options = [
   { value: "20 People", label: "20 People" }
 ];
 
-const GroupSizeSelector = ({ formData, onChange }) => {
+const GroupSizeSelector = ({ formData, onChange, customSelectStyles }) => {
   useEffect(() => {
     if (!formData.groupSize) {
       onChange("groupSize", "2 People");
@@ -39,6 +39,8 @@ const GroupSizeSelector = ({ formData, onChange }) => {
         value={options.find((opt) => opt.value === formData.groupSize)}
         onChange={handleChange}
         options={options}
+        isSearchable={false}
+        styles={customSelectStyles}
       />
     </>
   );

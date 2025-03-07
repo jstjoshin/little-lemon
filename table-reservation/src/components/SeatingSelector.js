@@ -6,7 +6,7 @@ const options = [
   { value: "Outside Seating", label: "Outside Seating" }
 ];
 
-const SeatingSelector = ({ formData, onChange }) => {
+const SeatingSelector = ({ formData, onChange, customSelectStyles }) => {
   useEffect(() => {
       if (!formData.selectedSeating) {
         onChange("selectedSeating", "Inside Seating");
@@ -21,6 +21,8 @@ const SeatingSelector = ({ formData, onChange }) => {
         value={options.find((opt) => opt.value === formData.selectedSeating)}
         onChange={handleChange}
         options={options}
+        isSearchable={false}
+        styles={customSelectStyles}
       />
     </>
   );

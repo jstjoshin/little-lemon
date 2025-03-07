@@ -57,14 +57,32 @@ const BookingForm = ({ availableTimes, dispatch, formData, onFormChange, resetFo
     }
   };
 
+  const customSelectStyles = {
+    control: (provided, state) => ({
+      ...provided,
+      "&:hover": {
+        cursor: "pointer",
+      },
+    }),
+    menu: (provided) => ({
+      ...provided,
+    }),
+    option: (provided, state) => ({
+      ...provided,
+      "&:hover": {
+        cursor: "pointer",
+      },
+    }),
+  };
+
   return (
     <form onSubmit={handleSubmit}>
       <fieldset>
         <section className="booking-selectors">
           <DateSelector formData={formData} onChange={handleChange} dispatch={dispatch} fullyBookedDates={fullyBookedDates}/>
-          <GroupSizeSelector formData={formData} onChange={handleChange} />
-          <SeatingSelector formData={formData} onChange={handleChange} />
-          <OccasionSelector formData={formData} onChange={handleChange} />
+          <GroupSizeSelector formData={formData} onChange={handleChange} customSelectStyles={customSelectStyles} />
+          <SeatingSelector formData={formData} onChange={handleChange} customSelectStyles={customSelectStyles} />
+          <OccasionSelector formData={formData} onChange={handleChange} customSelectStyles={customSelectStyles} />
         </section>
         <section>
           <h3>Select a Time</h3><p>(required)</p>

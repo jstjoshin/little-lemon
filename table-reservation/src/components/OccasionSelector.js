@@ -8,7 +8,7 @@ const options = [
   { value: "Anniversary", label: "Anniversary" },
 ];
 
-const OccasionSelector = ({ formData, onChange }) => {
+const OccasionSelector = ({ formData, onChange, customSelectStyles }) => {
   const handleChange = (option) => {
     onChange("selectedOccasion", option.value);
   };
@@ -26,6 +26,8 @@ const OccasionSelector = ({ formData, onChange }) => {
         }
         getOptionLabel={(option) => option.label}
         getOptionValue={(option) => option.value}
+        isSearchable={false}
+        styles={customSelectStyles}
       />
     </>
   );
