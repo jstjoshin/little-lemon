@@ -7,7 +7,7 @@ import SeatingSelector from "../components/SeatingSelector";
 import TimeOptions from "../components/TimeOptions";
 import ContactDetails from "../components/ContactDetails";
 
-const BookingForm = ({ availableTimes, dispatch, formData, onFormChange, resetFormData, reservedTimes, setReservedTimes, timesErrorMessage, timesLoading, isFormValid, errors, onBlur }) => {
+const BookingForm = ({ availableTimes, dispatch, formData, onFormChange, resetFormData, reservedTimes, setReservedTimes, timesErrorMessage, timesLoading, isFormValid, errors, onBlur, fullyBookedDates, setFullyBookedDates }) => {
   const navigate = useNavigate();
   const handleChange = async (field, value) => {
     onFormChange(field, value);
@@ -34,6 +34,18 @@ const BookingForm = ({ availableTimes, dispatch, formData, onFormChange, resetFo
           [formData.selectedDate]: [...(prev[formData.selectedDate] || []), formData.selectedTimeRaw],
         };
         localStorage.setItem("reservedTimes", JSON.stringify(updatedTimes));
+        
+      const allAvailableTimes = window.fetchAPI(new Date(formData.selectedDate));
+      const bookedTimes = updatedTimes[formData.selectedDate];
+
+      if (bookedTimes.length >= allAvailableTimes.length) {
+        setFullyBookedDates((prevFullyBooked) => {
+          const updatedFullyBooked = [...prevFullyBooked, formData.selectedDate];
+          localStorage.setItem("fullyBookedDates", JSON.stringify(updatedFullyBooked));
+          return updatedFullyBooked;
+        });
+      }
+        
         return updatedTimes;
       });
       dispatch({ type: "SUBMIT_FORM", payload: formData });
@@ -49,7 +61,7 @@ const BookingForm = ({ availableTimes, dispatch, formData, onFormChange, resetFo
     <form onSubmit={handleSubmit}>
       <fieldset>
         <section className="booking-selectors">
-          <DateSelector formData={formData} onChange={handleChange} dispatch={dispatch}/>
+          <DateSelector formData={formData} onChange={handleChange} dispatch={dispatch} fullyBookedDates={fullyBookedDates}/>
           <GroupSizeSelector formData={formData} onChange={handleChange} />
           <SeatingSelector formData={formData} onChange={handleChange} />
           <OccasionSelector formData={formData} onChange={handleChange} />

@@ -2,7 +2,7 @@ import React, { useState, useEffect, forwardRef } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-const DateSelector = ({ formData, onChange }) => {
+const DateSelector = ({ formData, onChange, fullyBookedDates }) => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   useEffect(() => {
     if (!formData.selectedDate) {
@@ -33,12 +33,16 @@ const DateSelector = ({ formData, onChange }) => {
     const formattedDate = date.toLocaleDateString();
     onChange("selectedDate", formattedDate);
   };
-
+  const isDateDisabled = (date) => {
+    return fullyBookedDates.includes(date.toLocaleDateString());
+  };
   return (
     <DatePicker
       selected={selectedDate}
       onChange={handleDateChange}
       customInput={<CustomButtonInput className="date-picker-btn" />}
+      minDate={new Date()}
+      filterDate={(date) => !isDateDisabled(date)}
     />
   );
 };

@@ -15,6 +15,11 @@ export const loadReservedTimes = () => {
   return storedTimes ? JSON.parse(storedTimes) : {};
 };
 
+export const loadFullyBookedDates = () => {
+  const storedDates = localStorage.getItem("fullyBookedDates");
+  return storedDates ? JSON.parse(storedDates) : [];
+};
+
 export const initializeTimes = () => {
   const apiTimes = window.fetchAPI(new Date());
   return Array.isArray(apiTimes) ? apiTimes : [];
@@ -36,6 +41,7 @@ export const updateTimes = (state, action) => {
 const Main = () => {
   const [availableTimes, dispatch] = useReducer(updateTimes, []);
   const [reservedTimes, setReservedTimes] = useState(loadReservedTimes);
+  const [fullyBookedDates, setFullyBookedDates] = useState(loadFullyBookedDates());
   const [timesLoading, setTimesLoading] = useState(true);
   const [timesErrorMessage, setTimesErrorMessage] = useState(false);
   const [errors, setErrors] = useState({});
@@ -180,6 +186,8 @@ const Main = () => {
         resetFormData={resetFormData}
         reservedTimes={reservedTimes}
         setReservedTimes={setReservedTimes}
+        fullyBookedDates={fullyBookedDates}
+        setFullyBookedDates={setFullyBookedDates}
         timesErrorMessage={timesErrorMessage}
         timesLoading={timesLoading}
         isFormValid={isFormValid}
