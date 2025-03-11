@@ -34,7 +34,7 @@ const BookingForm = ({ availableTimes, dispatch, formData, onFormChange, resetFo
           [formData.selectedDate]: [...(prev[formData.selectedDate] || []), formData.selectedTimeRaw],
         };
         localStorage.setItem("reservedTimes", JSON.stringify(updatedTimes));
-        
+
       const allAvailableTimes = window.fetchAPI(new Date(formData.selectedDate));
       const bookedTimes = updatedTimes[formData.selectedDate];
 
@@ -45,11 +45,11 @@ const BookingForm = ({ availableTimes, dispatch, formData, onFormChange, resetFo
           return updatedFullyBooked;
         });
       }
-        
+
         return updatedTimes;
       });
       dispatch({ type: "SUBMIT_FORM", payload: formData });
-      navigate("/confirmed-booking");
+      navigate("/confirmed-booking", { state: { formData } });
       resetFormData();
     } else {
       console.error("Form submission to API failed.");
