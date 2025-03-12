@@ -4,7 +4,7 @@ import imageChefsB from '../images/about-mario-adrian-b.jpg';
 
 const About = () => {
   return (
-    <section className='about' aria-label="About">
+    <section id="about" className='about' aria-label="About">
       <header>
         <h1>Little Lemon</h1>
         <h2>Two Chefs, One Dream</h2>

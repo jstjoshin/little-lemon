@@ -4,9 +4,9 @@ import Nav from "./Nav";
 const Footer = ({logo}) => {
 
   return (
-    <footer>
+    <footer aria-label="Site Footer">
       <section>
-        <img src={logo} alt="logo"/>
+        <img src={logo} alt="Little Lemon logo"/>
         <Nav isHeader={false} />
       </section>
     </footer>

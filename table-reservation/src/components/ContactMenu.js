@@ -1,10 +1,16 @@
 import React from 'react';
 
-const ContactMenu = () => (
-  <menu>
-    <li><a href="/contact">Address</a></li>
-    <li><a href="/contact">Phone Number</a></li>
-    <li><a href="/contact">Email</a></li>
+const ContactMenu = ({ noClick }) => (
+  <menu role="menu" aria-label="Contact Information">
+    <li role="menuitem">
+      <a href="/contact" onClick={noClick} aria-describedby="disabled-description" >Address</a>
+    </li>
+    <li role="menuitem">
+      <a href="/contact" onClick={noClick} aria-describedby="disabled-description" >Phone Number</a>
+    </li>
+    <li role="menuitem">
+      <a href="/contact" onClick={noClick} aria-describedby="disabled-description" >Email</a>
+    </li>
   </menu>
 );
 

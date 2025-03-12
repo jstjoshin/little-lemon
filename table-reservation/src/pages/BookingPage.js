@@ -4,7 +4,7 @@ import BookingMain from "../components/BookingMain";
 
 const BookingPage = ({heroImg}) => {
   return (
-    <main>
+    <main aria-label="Make a table reservation with Little Lemon">
       <Hero isHomePage={false} heroImg={heroImg} />
       <section>
         <h1>Reserve a Table</h1>

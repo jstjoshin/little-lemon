@@ -6,7 +6,7 @@ import About from "../components/About";
 
 const HomePage = ({heroImg}) => {
   return (
-    <main>
+    <main aria-label="Welcome to Little Lemon">
       <Hero isHomePage={true} heroImg={heroImg} />
       <Specials />
       <Testimonials />

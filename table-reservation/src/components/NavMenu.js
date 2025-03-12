@@ -1,26 +1,26 @@
 import React from 'react';
 import { NavLink } from "react-router-dom";
 
-const NavMenu = () => {
+const NavMenu = ({ noClick }) => {
   return (
-    <menu>
-      <li>
+    <menu role="menu" aria-label="Main Navigation">
+      <li role="menuitem">
         <NavLink to="/">Home</NavLink>
       </li>
-      <li>
-        <NavLink to="/about">About</NavLink>
+      <li role="menuitem">
+        <NavLink to="/#about">About</NavLink>
       </li>
-      <li>
-        <NavLink to="/menu">Menu</NavLink>
+      <li role="menuitem">
+        <NavLink to="/menu" onClick={noClick} aria-describedby="disabled-description">Menu</NavLink>
       </li>
-      <li>
+      <li role="menuitem">
         <NavLink to="/booking">Reservations</NavLink>
       </li>
-      <li>
-        <NavLink to="/order">Order Online</NavLink>
+      <li role="menuitem">
+        <NavLink to="/order" onClick={noClick} aria-describedby="disabled-description">Order Online</NavLink>
       </li>
-      <li>
-        <NavLink to="/login">Login</NavLink>
+      <li role="menuitem">
+        <NavLink to="/login" onClick={noClick} aria-describedby="disabled-description">Login</NavLink>
       </li>
     </menu>
   );

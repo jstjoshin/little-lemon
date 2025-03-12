@@ -4,20 +4,25 @@ import ContactMenu from "./ContactMenu";
 import SocialMenu from "./SocialMenu";
 
 const Nav = ({ isHeader = false }) => {
+  const noClick = (e) => {
+    e.preventDefault()
+    e.target.style.cursor = "not-allowed";
+    e.target.setAttribute("title", "--- Ooops, this feature is not yet available ---");
+  };
   return (
-    <nav>
+    <nav aria-label={isHeader ? "Primary Navigation" : "Footer Navigation"}>
       {isHeader ? (
         <>
-          <NavMenu />
+          <NavMenu noClick={noClick} />
         </>
       ) : (
         <>
-          <h5>Doormat Navigation</h5>
-          <NavMenu />
-          <h5>Contact</h5>
-          <ContactMenu />
-          <h5>Social Media Links</h5>
-          <SocialMenu />
+          <h5 id="footer-navigation-heading">Doormat Navigation</h5>
+          <NavMenu noClick={noClick} />
+          <h5 id="contact-heading">Contact</h5>
+          <ContactMenu noClick={noClick} />
+          <h5 id="social-media-heading">Social Media Links</h5>
+          <SocialMenu noClick={noClick} />
         </>
       )}
     </nav>

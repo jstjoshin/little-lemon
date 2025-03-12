@@ -3,9 +3,9 @@ import Nav from "./Nav";
 
 const Header = ({logo}) => {
   return (
-    <header>
+    <header aria-label="Site Header">
       <section>
-        <img src={logo} alt="logo"/>
+        <img src={logo} alt="Little Lemon logo"/>
         <Nav isHeader={true} />
       </section>
     </header>
