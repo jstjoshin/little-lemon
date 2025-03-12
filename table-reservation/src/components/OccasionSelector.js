@@ -28,6 +28,7 @@ const OccasionSelector = ({ formData, onChange, customSelectStyles }) => {
         getOptionValue={(option) => option.value}
         isSearchable={false}
         styles={customSelectStyles}
+        aria-label="Select an occasion, this is optional"
       />
     </>
   );

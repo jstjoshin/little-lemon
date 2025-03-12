@@ -41,6 +41,7 @@ const GroupSizeSelector = ({ formData, onChange, customSelectStyles }) => {
         options={options}
         isSearchable={false}
         styles={customSelectStyles}
+        aria-label="Select the size of your group"
       />
     </>
   );

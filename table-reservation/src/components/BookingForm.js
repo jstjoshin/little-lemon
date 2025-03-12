@@ -92,7 +92,7 @@ const BookingForm = ({ availableTimes, dispatch, formData, onFormChange, resetFo
           <h3>Contact Information</h3>
           <ContactDetails formData={formData} onChange={handleChange} errors={errors} onBlur={onBlur} />
         </section>
-        <button type="submit" disabled={!isFormValid}>Complete Reservation</button>
+        <button type="submit" disabled={!isFormValid} aria-disabled={!isFormValid}>Complete Reservation</button>
       </fieldset>
     </form>
   );

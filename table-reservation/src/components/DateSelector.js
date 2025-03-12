@@ -43,6 +43,7 @@ const DateSelector = ({ formData, onChange, fullyBookedDates }) => {
       customInput={<CustomButtonInput className="date-picker-btn" />}
       minDate={new Date()}
       filterDate={(date) => !isDateDisabled(date)}
+      aria-label="Select the date you want a reservation for"
     />
   );
 };

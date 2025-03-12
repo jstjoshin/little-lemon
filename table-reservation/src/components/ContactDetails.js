@@ -13,8 +13,10 @@ const ContactDetails = ({ formData, onChange, errors, onBlur }) => {
             value={formData.firstName}
             onChange={(e) => onChange("firstName", e.target.value)}
             onBlur={() => onBlur("firstName")}
+            aria-required="true"
+            aria-describedby="first-name-error"
           />
-          {errors.firstName && <p style={{ color: "red" }}>{errors.firstName}</p>}
+          {errors.firstName && <p id="first-name-error" role="alert" style={{ color: "red" }}>{errors.firstName}</p>}
         </span>
         <span className="field">
           <label htmlFor="last-name">Last Name*</label>
@@ -25,8 +27,10 @@ const ContactDetails = ({ formData, onChange, errors, onBlur }) => {
             value={formData.lastName}
             onChange={(e) => onChange("lastName", e.target.value)}
             onBlur={() => onBlur("lastName")}
+            aria-required="true"
+            aria-describedby="last-name-error"
           />
-          {errors.lastName && <p style={{ color: "red" }}>{errors.lastName}</p>}
+          {errors.lastName && <p id="last-name-error" role="alert" style={{ color: "red" }}>{errors.lastName}</p>}
         </span>
       </span>
       <span className="field">
@@ -38,8 +42,10 @@ const ContactDetails = ({ formData, onChange, errors, onBlur }) => {
           value={formData.userEmail}
           onChange={(e) => onChange("userEmail", e.target.value)}
           onBlur={() => onBlur("userEmail")}
+          aria-required="true"
+          aria-describedby="email-error"
         />
-        {errors.userEmail && <p style={{ color: "red" }}>{errors.userEmail}</p>}
+        {errors.userEmail && <p id="email-error" role="alert" style={{ color: "red" }}>{errors.userEmail}</p>}
       </span>
       <span className="field">
         <label htmlFor="special-requests">Special Requests (optional)</label>
@@ -50,8 +56,10 @@ const ContactDetails = ({ formData, onChange, errors, onBlur }) => {
           value={formData.specialRequests}
           onChange={(e) => onChange("specialRequests", e.target.value)}
           onBlur={() => onBlur("specialRequests")}
+          aria-required="false"
+          aria-describedby="special-requests-error"
         />
-        {errors.specialRequests && <p style={{ color: "red" }}>{errors.specialRequests}</p>}
+        {errors.specialRequests && <p id="special-requests-error" role="alert" style={{ color: "red" }}>{errors.specialRequests}</p>}
       </span>
     </section>
   );

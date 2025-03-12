@@ -23,6 +23,7 @@ const SeatingSelector = ({ formData, onChange, customSelectStyles }) => {
         options={options}
         isSearchable={false}
         styles={customSelectStyles}
+        aria-label="Select your desired seating type"
       />
     </>
   );
