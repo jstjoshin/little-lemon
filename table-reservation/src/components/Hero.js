@@ -4,7 +4,7 @@ import HeroBooking from "./HeroBooking";
 
 const Hero = ({ heroImg, isHomePage = false }) => {
   return (
-    <section className="hero">
+    <section className="hero" aria-labelledby="hero-heading">
       {isHomePage ? (
         <>
           <HeroHome heroImg={heroImg}/>
