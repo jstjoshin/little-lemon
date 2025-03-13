@@ -10,17 +10,19 @@ const ConfirmedBooking = ({heroImg}) => {
   const navigate = useNavigate();
   const formData = location.state?.formData;
   return (
-    <main aria-label="Your reservation with Little Lemon was successful">
+    <main aria-labelledby="confirmation-heading">
       <Hero isHomePage={false} heroImg={heroImg} />
       <section>
-        <h1>Your table is reserved!</h1>
-        <section>
+        <header>
+          <h1 id="confirmation-heading">Your table is reserved!</h1>
+        </header>
+        <section aria-label="Reservation Details">
           <ReservationDetails formData={formData} />
         </section>
-        <section>
+        <section aria-label="Manage Your Reservation">
           <ReservationActions navigate={navigate} formData={formData}/>
         </section>
-        <section>
+        <section aria-label="Restaurant Location">
           <LocationDetails />
         </section>
       </section>

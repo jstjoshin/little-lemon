@@ -42,12 +42,16 @@ END:VCALENDAR`;
   return (
     <>
         <button onClick={() => navigate("/booking")}>Update Reservation</button>
-        <button onClick={() => setShowOptions(!showOptions)}>
+        <button
+          onClick={() => setShowOptions(!showOptions)}
+          aria-expanded={showOptions}
+          aria-controls="calendar-options"
+        >
           Add to Calendar
         </button>
 
         {showOptions && (
-          <div>
+          <div id="calendar-options">
             <a href={googleCalendarUrl} target="_blank" rel="noopener noreferrer">
               <button>Google Calendar</button>
             </a>

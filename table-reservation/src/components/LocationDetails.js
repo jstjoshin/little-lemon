@@ -12,7 +12,7 @@ const LocationDetails = () => {
           Chicago, IL 70623
         </p>
         <h5>Phone</h5>
-        <a href="tel:+1234567890" onclick="return false;" role="presentation">+1 (773) 323-2233</a>
+        <a href="tel:+1234567890" onclick="return false;" role="presentation" aria-label="Call Little Lemon at +1234567890">+1 (234) 567-8900</a>
       </section>
     </>
   );
