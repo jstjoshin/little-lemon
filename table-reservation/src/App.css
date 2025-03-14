@@ -249,6 +249,29 @@ footer li {
 footer a {
   color: var(--white);
   font-weight: var(--font-weight-normal);
+  display: inline-flex;
+  gap: 0.5rem;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+footer a span {
+  display: flex;
+  flex-grow: 1;
+}
+footer .icon-nav {
+  max-width: 1.4375rem;
+  height: 1.4375rem;
+  margin-top: 0;
+  margin-right: 0px;
+}
+footer .social-menu li {
+  display: inline-block;
+  margin-right: 1.25rem;
+}
+footer .icon-social {
+  width: 2rem;
+  height: 2rem;
+  margin-right: 0px;
 }
 
 /* Breakpoint changes */
@@ -265,6 +288,9 @@ footer a {
   }
   footer img {
     margin-right: 0px;
+  }
+  footer a {
+    display: inline-flex;
   }
 }
 @media (max-width: 550px) { 

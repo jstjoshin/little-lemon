@@ -48,7 +48,7 @@ const ReservationDetails = ({ formData }) => {
         </span>
         <span>
           <img
-            src={iconsOccasion[formData.selectedOccasion] || iconsOccasion[0]}
+            src={iconsOccasion[formData.selectedOccasion] || iconOccasion}
             alt={`Icon for reserved occasion, ${formData.selectedOccasion || "none selected"}`}
             className="icon-details"
           />

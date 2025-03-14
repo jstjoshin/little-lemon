@@ -17,11 +17,11 @@ const Nav = ({ isHeader = false }) => {
         </>
       ) : (
         <>
-          <h5 id="footer-navigation-heading">Doormat Navigation</h5>
+          <h5 id="footer-navigation-heading">Navigation</h5>
           <NavMenu noClick={noClick} />
           <h5 id="contact-heading">Contact</h5>
           <ContactMenu noClick={noClick} />
-          <h5 id="social-media-heading">Social Media Links</h5>
+          <h5 id="social-media-heading">Social Media</h5>
           <SocialMenu noClick={noClick} />
         </>
       )}
