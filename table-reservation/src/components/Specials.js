@@ -1,11 +1,12 @@
 import React from 'react';
 import { NavLink } from "react-router-dom";
+import { Tooltip } from 'react-tooltip';
 import imageGreekSalad from '../images/food-greek-salad.jpg';
 import imageBrushetta from '../images/food-bruschetta.jpg';
 import imageLemonDesert from '../images/food-lemon-dessert.jpg';
 import iconDeliveryBike from '../images/icon-bicycle.svg';
 
-const Specials = () => {
+const Specials = ({noClick}) => {
   const featuredItems = [
     {
       id: 1,
@@ -34,19 +35,32 @@ const Specials = () => {
     <section className='specials' aria-labelledby="specials-heading">
       <header>
         <h1 id="specials-heading">This weeks specials!</h1>
-        <NavLink to="/menu" aria-label="View full online menu" >Online Menu</NavLink>
+        <NavLink to="/menu" aria-label="View full online menu" className="btn-link" role="button" onClick={noClick} aria-describedby="disabled-description">Online Menu</NavLink>
       </header>
       <section>
         {featuredItems.map((item) => (
           <article key={item.id} aria-labelledby={`title-${item.id}`} aria-describedby={`desc-${item.id}`}>
             <img src={item.image} alt={item.title} />
-            <h5 id={`title-${item.id}`}>{item.title}</h5>
-            <p>{item.price}</p>
-            <p id={`desc-${item.id}`}>{item.description}</p>
-            <NavLink to="/order" aria-label={`Order ${item.title} for delivery`} role="button">
-              <span aria-hidden="true">Order a delivery</span>
-              <img src={iconDeliveryBike} alt="Delivery icon" aria-hidden="true" />
-            </NavLink>
+            <section className='item-details'>
+              <header>
+                <h5 id={`title-${item.id}`}>{item.title}</h5>
+                <p className='item-price'>{item.price}</p>
+              </header>
+              <p id={`desc-${item.id}`}>{item.description}</p>
+              <Tooltip
+                anchorSelect={`#show-meal-text-${item.id}`}
+                content={item.description}
+                place="right"
+                className="tooltip"
+                openOnClick="true"
+                closeEvents={{ click: true }}
+              />
+              <span id={`show-meal-text-${item.id}`} className='show-full-control' aria-label="Click for full meal description">more</span>
+              <NavLink to="/order" aria-label={`Order ${item.title} for delivery`} role="button" onClick={noClick} aria-describedby="disabled-description">
+                <span aria-hidden="true">Order a delivery</span>
+                <img src={iconDeliveryBike} alt="Delivery icon" aria-hidden="true" />
+              </NavLink>
+            </section>
           </article>
         ))}
       </section>

@@ -25,17 +25,22 @@ function App() {
     }, [location]);
     return null;
   };
+  const noClick = (e) => {
+    e.preventDefault()
+    e.target.style.cursor = "not-allowed";
+    e.target.setAttribute("title", "--- Ooops, this feature is not yet available ---");
+  };
 
   return (
     <Router>
       <ScrollToSection />
-      <Header logo={logoInline}/>
+      <Header logo={logoInline} noClick={noClick}/>
       <Routes>
-        <Route path="/" element={<HomePage heroImg={heroImgHome} />}></Route>
+        <Route path="/" element={<HomePage heroImg={heroImgHome} noClick={noClick} />}></Route>
         <Route path="/booking" element={<BookingPage heroImg={heroImgBooking} />}></Route>
         <Route path="/confirmed-booking" element={<ConfirmedBooking heroImg={heroImgBooking} />}></Route>
       </Routes>
-      <Footer logo={logoStacked}/>
+      <Footer logo={logoStacked} noClick={noClick}/>
     </Router>
   );
 }

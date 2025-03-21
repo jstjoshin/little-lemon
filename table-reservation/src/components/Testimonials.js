@@ -1,4 +1,5 @@
 import React from 'react';
+import { Tooltip } from 'react-tooltip';
 import profileImgJames from '../images/profile-james.jpg';
 import profileImgPriyanka from '../images/profile-priyanka.jpg';
 import profileImgTim from '../images/profile-tim.jpg';
@@ -55,11 +56,26 @@ const Testimonials = () => {
       <section>
         {featuredTestimonials.map((entry) => (
           <article key={entry.id} className='testimonial-card' aria-label={`Review by ${entry.name}`}>
-            <h5>Rating</h5>
-            <StarRating rating={entry.rating} />
-            <img src={entry.image} alt="Reviewer profile" aria-hidden="true" />
-            <h5 aria-hidden="true">{entry.name}</h5>
-            <p>{entry.comment}</p>
+            <span className='rating'>
+              <h5>Rating</h5>
+              <StarRating rating={entry.rating} />
+            </span>
+            <span className='profile'>
+              <img src={entry.image} alt="Reviewer profile" aria-hidden="true" />
+              <h5 aria-hidden="true">{entry.name}</h5>
+            </span>
+            <span className='description'>
+              <p className="testimonial-text">{entry.comment}</p>
+              <Tooltip
+                anchorSelect={`#show-full-text-${entry.id}`}
+                content={entry.comment}
+                place="right"
+                className="tooltip"
+                openOnClick="true"
+                closeEvents={{ click: true }}
+              />
+              <span id={`show-full-text-${entry.id}`} className='show-full-control' aria-label="Click for full testimonial">more</span>
+            </span>
           </article>
         ))}
       </section>

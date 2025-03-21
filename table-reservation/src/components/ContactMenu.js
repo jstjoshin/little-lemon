@@ -31,7 +31,7 @@ const ContactMenu = ({ noClick }) => (
         </span>
       </a>
     </li>
-    <h5 aria-label="Location Information"><br />Location</h5>
+    <h4 aria-label="Location Information"><br />Location</h4>
     <li role="menuitem">
       <a href="/contact" onClick={noClick} aria-describedby="disabled-description" >
         <img
