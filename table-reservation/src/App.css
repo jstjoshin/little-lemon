@@ -121,33 +121,6 @@ header > *, footer > * {
   text-align: center;
   box-sizing: border-box;
 }
-.btn-menu {
-  display: none;
-  position: relative;
-  z-index: 100;
-  width: 2.5rem;
-  height: 1.875rem;
-  background: none;
-  border: none;
-  padding: 0px;
-}
-.btn-menu-img {
-  width: 100%;
-  height: auto;
-  position: absolute;
-  left: 0;
-  transition: transform 0.3s ease, opacity 0.05s ease;
-}
-.btn-menu-img.hidden {
-  opacity: 0;
-  pointer-events: none;
-  transform: rotateX(90deg);
-}
-.btn-menu-img.visible {
-  opacity: 1;
-  pointer-events: auto;
-  transform: rotateX(0deg);
-}
 
 /* Tooltips */
 .show-full-control {
@@ -188,16 +161,81 @@ header img {
 header nav {
   flex-grow: 1;
 }
-header menu, header h5 {
-  display: none;
-}
-header menu {
+header .nav-menu {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 }
 header li {
   flex-shrink: 0;
+}
+.nav-menu li:first-of-type {
+  padding-left: 0;
+}
+.nav-menu li:last-of-type {
+  padding-right: 0;
+}
+
+/* Header Nav Mobile */
+.btn-menu {
+  display: flex;
+  position: relative;
+  z-index: 100;
+  width: 2.5rem;
+  height: 1.875rem;
+  background: none;
+  border: none;
+  padding: 0px;
+  cursor: pointer;
+}
+.btn-menu-img {
+  width: 100%;
+  height: auto;
+  position: absolute;
+  left: 0;
+  transition: transform 0.3s ease, opacity 0.05s ease;
+}
+.btn-menu-img.hidden {
+  opacity: 0;
+  pointer-events: none;
+  transform: rotateX(90deg);
+}
+.btn-menu-img.visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: rotateX(0deg);
+}
+header .nav-menu-mobile {
+  box-sizing: border-box;
+  flex-direction: column;
+  height: 100vh;
+  width: 100%;
+  padding: 4.5rem 0;
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  gap: 0;
+  background: var(--white);
+  box-shadow: var(--drop-shadow);
+  justify-content: flex-start;
+  z-index: 99;
+  display: none;
+}
+header .nav-menu-mobile.open {
+  display: block;
+  left: 0;
+}
+header .nav-menu-mobile li {
+  border-bottom: 1px solid var(--secondary-grey);
+  padding: 0;
+}
+header .nav-menu-mobile li:first-of-type {
+  border-top: 1px solid var(--secondary-grey);
+}
+header .nav-menu-mobile a {
+  display: block;
+  width: 100%;
+  padding: 2rem 0;
 }
 
 /* Main */
@@ -570,6 +608,8 @@ footer p {
   header, main, .hero, footer {
     grid-template-columns: [left-edge] 1rem minmax(auto, 53.75rem) 1rem;
   }
+
+  /* Header Nav Small*/
   header {
     padding: 1.5rem 0;
   }
@@ -580,11 +620,11 @@ footer p {
     flex-wrap: wrap;
     justify-content: center;
   }
-  header nav li:nth-last-of-type(2) {
+  .nav-menu li:nth-of-type(2) {
     display: none;
   }
 
-  /* Hero-home Sml */
+  /* Hero-home Small */
   .hero-home {
     grid-template-areas: "header header"
                           "p img"
@@ -603,7 +643,7 @@ footer p {
     margin-bottom: 0;
   }
 
-  /* Specials Sml */
+  /* Specials Small */
   .specials {
     padding: 3rem 0;
   }
@@ -643,7 +683,7 @@ footer p {
     display: flex;
   }
 
-  /* Testimonials Sml */
+  /* Testimonials Small */
   .testimonials {
     padding: 3rem 0;
   }
@@ -675,7 +715,7 @@ footer p {
     -webkit-box-orient: vertical;
   }
 
-  /* About Sml */
+  /* About Small */
   .about {
     grid-template-columns: auto minmax(20rem, 1fr);
     column-gap: 2rem;
@@ -691,7 +731,7 @@ footer p {
     grid-template-columns: 0.75fr 1fr;
   }
 
-  /* Footer Sml */
+  /* Footer Small */
   footer section {
     flex-wrap: wrap-reverse;
     justify-content: flex-start;
@@ -719,9 +759,6 @@ footer p {
   .hero, .testimonials {
     grid-column: left-edge / span 6;
   }
-  .hero {
-    padding: 1rem 0;
-  }
   .btn-link {
     padding: 0.5rem 1rem;
     border-radius: 1.5rem;
@@ -748,44 +785,11 @@ footer p {
   header nav {
     max-width: 2.5rem;
   }
-  header .btn-menu {
-    display: flex;
-    cursor: pointer;
-  }
-  header .nav-menu {
-    box-sizing: border-box;
-    flex-direction: column;
-    height: 100vh;
-    width: 100%;
-    padding: 4.5rem 0;
-    overflow: hidden;
-    position: absolute;
-    top: 0;
-    gap: 0;
-    background: var(--white);
-    box-shadow: var(--drop-shadow);
-    justify-content: flex-start;
-    z-index: 99;
-    display: none;
-  }
-  header .nav-menu.open {
-    display: block;
-    left: 0;
-  }
-  header .nav-menu li {
-    border-bottom: 1px solid var(--secondary-grey);
-    padding: 0;
-  }
-  header .nav-menu li:first-of-type {
-    border-top: 1px solid var(--secondary-grey);
-  }
-  header .nav-menu a {
-    display: block;
-    width: 100%;
-    padding: 2rem 0;
-  }
 
   /* Hero Home Mobile */
+  .hero {
+    padding: 1rem 0;
+  }
   .hero-home {
     grid-template-areas: "header header"
                           "p img"

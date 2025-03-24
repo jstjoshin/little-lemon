@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import { FocusTrap } from 'focus-trap-react';
 import NavMenu from "./NavMenu";
+import NavMenuMobile from "./NavMenuMobile";
 import ContactMenu from "./ContactMenu";
 import SocialMenu from "./SocialMenu";
 import iconMenu from '../images/icon-menu.svg';
@@ -7,44 +9,72 @@ import iconMenuClose from '../images/icon-menu-close.svg';
 
 const Nav = ({ isHeader = false, noClick }) => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 550);
   const toggleMenu = () => setMenuOpen(!menuOpen);
 
   useEffect(() => {
-    if (menuOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
-    return () => {
-      document.body.style.overflow = '';
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 550);
+      if (!isMobile && menuOpen) {
+        setMenuOpen(false);
+      }
     };
-  }, [menuOpen]);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [menuOpen, isMobile]);
+
+  useEffect(() => {
+    document.body.style.overflow = menuOpen && isMobile ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [menuOpen, isMobile]);
 
   return (
     <nav aria-label={isHeader ? "Primary Navigation" : "Footer Navigation"}>
       {isHeader ? (
         <>
-          <button
-            className="btn-menu"
-            onClick={toggleMenu}
-            aria-expanded={menuOpen}
-            aria-controls="main-navigation"
-            aria-label={menuOpen ? "Close menu" : "Open menu"}
-          >
-            <img
-              src={iconMenu}
-              alt='menu icon open'
-              aria-hidden="true"
-              className={`btn-menu-img ${menuOpen ? "hidden" : "visible"}`}
-            />
-            <img
-              src={iconMenuClose}
-              alt='menu icon close'
-              aria-hidden="true"
-              className={`btn-menu-img ${menuOpen ? "visible" : "hidden"}`}
-            />
-          </button>
-          <NavMenu noClick={noClick} menuOpen={menuOpen} toggleMenu={toggleMenu}/>
+          {isMobile ? (
+            <>
+              <button
+                className="btn-menu"
+                onClick={toggleMenu}
+                aria-expanded={menuOpen}
+                aria-controls="main-navigation"
+                aria-label={menuOpen ? "Close menu" : "Open menu"}
+              >
+                <img
+                  src={iconMenu}
+                  alt='menu icon open'
+                  aria-hidden="true"
+                  className={`btn-menu-img ${menuOpen ? "hidden" : "visible"}`}
+                />
+                <img
+                  src={iconMenuClose}
+                  alt='menu icon close'
+                  aria-hidden="true"
+                  className={`btn-menu-img ${menuOpen ? "visible" : "hidden"}`}
+                />
+              </button>
+              {menuOpen && (
+                <FocusTrap
+                  focusTrapOptions={{
+                    clickOutsideDeactivates: true,
+                    escapeDeactivates: true,
+                    fallbackFocus: "#mobile-menu-container",
+                  }}
+                >
+                  <div id="mobile-menu-container" >
+                    <NavMenuMobile
+                      noClick={noClick}
+                      menuOpen={menuOpen}
+                      toggleMenu={toggleMenu}
+                    />
+                  </div>
+                </FocusTrap>
+              )}
+            </>
+          ) : (
+            <NavMenu noClick={noClick} />
+          )}
         </>
       ) : (
         <>

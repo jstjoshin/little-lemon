@@ -1,20 +1,20 @@
 import React from 'react';
 import { NavLink } from "react-router-dom";
 
-const NavMenu = ({ noClick }) => {
+const NavMenuMobile = ({ noClick, menuOpen, toggleMenu }) => {
   return (
-    <menu role="menu" aria-label="Main Navigation" className="nav-menu" >
+    <menu role="menu" aria-label="Main Navigation" className={`nav-menu-mobile ${menuOpen ? "open" : ""}`} >
       <li role="menuitem">
-        <NavLink to="/">Home</NavLink>
+        <NavLink to="/" onClick={toggleMenu}>Home</NavLink>
       </li>
       <li role="menuitem">
-        <NavLink to="/#about">About</NavLink>
+        <NavLink to="/#about" onClick={toggleMenu}>About</NavLink>
       </li>
       <li role="menuitem">
         <NavLink to="/menu" onClick={noClick} aria-describedby="disabled-description">Menu</NavLink>
       </li>
       <li role="menuitem">
-        <NavLink to="/booking">Reservations</NavLink>
+        <NavLink to="/booking" onClick={toggleMenu}>Reservations</NavLink>
       </li>
       <li role="menuitem">
         <NavLink to="/order" onClick={noClick} aria-describedby="disabled-description">Order Online</NavLink>
@@ -26,4 +26,4 @@ const NavMenu = ({ noClick }) => {
   );
 };
 
-export default NavMenu;
+export default NavMenuMobile;
