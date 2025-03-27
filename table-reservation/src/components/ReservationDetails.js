@@ -1,7 +1,7 @@
 import React from 'react';
 import iconCalSelect from '../images/icon-cal-select.svg';
 import iconTime from '../images/icon-time.svg';
-import iconPartySize from '../images/icon-people-count.svg';
+import iconGroupSize from '../images/icon-group-size.svg';
 import iconSeatInside from '../images/icon-inside-seat.svg';
 import iconSeatOutside from '../images/icon-outside-seat.svg';
 import iconOccasion from '../images/icon-occasion.svg';
@@ -35,7 +35,7 @@ const ReservationDetails = ({ formData }) => {
           <p>{formData.selectedTimeDisplay}</p>
         </span>
         <span>
-          <img src={iconPartySize} alt="Icon for reserved party size." className="icon-details"/>
+          <img src={iconGroupSize} alt="Icon for reserved group size." className="icon-details"/>
           <p>{formData.groupSize}</p>
         </span>
         <span>

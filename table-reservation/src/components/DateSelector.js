@@ -1,9 +1,11 @@
 import React, { useState, useEffect, forwardRef } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import iconCalSelect from '../images/icon-cal-select.svg';
 
-const DateSelector = ({ formData, onChange, fullyBookedDates }) => {
+const DateSelector = ({ formData, onChange, fullyBookedDates, iconDropdown }) => {
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const [isOpen, setIsOpen] = useState(false);
   useEffect(() => {
     if (!formData.selectedDate) {
       onChange("selectedDate", new Date().toLocaleDateString());
@@ -20,8 +22,18 @@ const DateSelector = ({ formData, onChange, fullyBookedDates }) => {
         <button
           type="button"
           className={className}
-          onClick={onClick}
+          onClick={() => setIsOpen(!isOpen)}
           ref={ref}
+          style={{
+            backgroundColor: 'var(--secondary-grey)',
+            backgroundImage: `
+              url(${iconCalSelect}),
+              url(${iconDropdown})
+            `,
+            backgroundRepeat: 'no-repeat, no-repeat',
+            backgroundPosition: '1rem center, right 1rem center',
+            lineHeight: '1.4375rem',
+          }}
         >
           {isToday ? "Today" : value}
         </button>
@@ -30,6 +42,7 @@ const DateSelector = ({ formData, onChange, fullyBookedDates }) => {
   );
   const handleDateChange = (date) => {
     setSelectedDate(date);
+    setIsOpen(false);
     const formattedDate = date.toLocaleDateString();
     onChange("selectedDate", formattedDate);
   };
@@ -40,9 +53,11 @@ const DateSelector = ({ formData, onChange, fullyBookedDates }) => {
     <DatePicker
       selected={selectedDate}
       onChange={handleDateChange}
-      customInput={<CustomButtonInput className="date-picker-btn" />}
+      customInput={<CustomButtonInput className="date-selector" />}
       minDate={new Date()}
       filterDate={(date) => !isDateDisabled(date)}
+      open={isOpen}
+      onClickOutside={() => setIsOpen(false)}
       aria-label="Select the date you want a reservation for"
     />
   );

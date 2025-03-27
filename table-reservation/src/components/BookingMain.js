@@ -176,7 +176,7 @@ const Main = () => {
   }, [formData, validationSchema]);
 
   return (
-    <section aria-label="Booking Details">
+    <section aria-label="Booking Details" className="booking-section">
       <BookingForm
         availableTimes={availableTimes}
         dispatch={dispatch}

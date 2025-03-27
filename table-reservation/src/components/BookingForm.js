@@ -6,6 +6,9 @@ import OccasionSelector from "../components/OccasionSelector";
 import SeatingSelector from "../components/SeatingSelector";
 import TimeOptions from "../components/TimeOptions";
 import ContactDetails from "../components/ContactDetails";
+import iconDropdown from '../images/icon-dropdown.svg';
+import iconCheckGrn from '../images/icon-check-grn.svg';
+import iconCheckWht from '../images/icon-check-wht.svg';
 
 const BookingForm = ({ availableTimes, dispatch, formData, onFormChange, resetFormData, reservedTimes, setReservedTimes, timesErrorMessage, timesLoading, isFormValid, errors, onBlur, fullyBookedDates, setFullyBookedDates }) => {
   const navigate = useNavigate();
@@ -58,20 +61,68 @@ const BookingForm = ({ availableTimes, dispatch, formData, onFormChange, resetFo
   };
 
   const customSelectStyles = {
+    placeholder: (provided) => ({
+      ...provided,
+      color: 'var(--primary-green)',
+      fontWeight: 'var(--font-weight-bold)',
+      fontSize: 'var(--font-size-sm)',
+    }),
+    singleValue: (provided) => ({
+      ...provided,
+      color: 'var(--primary-green)',
+      fontWeight: 'var(--font-weight-bold)',
+      fontSize: 'var(--font-size-sm)',
+    }),
     control: (provided, state) => ({
       ...provided,
+      backgroundColor: 'var(--secondary-grey)',
+      border: 'none',
+      borderRadius: '1rem',
+      padding: '0.594rem 1rem 0.594rem 0.375rem',
+      lineHeight: '2rem',
+      boxShadow: 'none',
       "&:hover": {
         cursor: "pointer",
+      },
+    }),
+    indicatorSeparator: () => ({
+      display: 'none',
+    }),
+    dropdownIndicator: () => ({
+      padding: 0,
+      backgroundImage: `url(${iconDropdown})`,
+      backgroundRepeat: 'no-repeat',
+      backgroundPosition: 'center',
+      width: '1.2rem',
+      height: '1.2rem',
+      color: 'transparent',
+    }),
+    option: (provided, state) => ({
+      ...provided,
+      backgroundColor: 'transparent',
+      backgroundImage: state.isSelected ? `url(${iconCheckGrn})` : "none",
+      backgroundPosition: 'left 1rem center',
+      backgroundRepeat: 'no-repeat',
+      padding: '1rem 1rem 1rem 3.125rem',
+      color: state.isSelected ? "var(--black)" : "var(--black)",
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      fontWeight: 'var(--font-weight-bold)',
+      fontSize: 'var(--font-size-sm)',
+      "&:hover": {
+        cursor: "pointer",
+        backgroundColor: 'var(--primary-green)',
+        backgroundImage: state.isSelected ? `url(${iconCheckWht})` : "none",
+        color: 'var(--white)',
       },
     }),
     menu: (provided) => ({
       ...provided,
-    }),
-    option: (provided, state) => ({
-      ...provided,
-      "&:hover": {
-        cursor: "pointer",
-      },
+      marginTop: '0.7rem',
+      borderRadius: '0.3125rem',
+      boxShadow: 'var(--drop-shadow)',
+      padding: '0.25rem 0',
     }),
   };
 
@@ -79,7 +130,7 @@ const BookingForm = ({ availableTimes, dispatch, formData, onFormChange, resetFo
     <form onSubmit={handleSubmit}>
       <fieldset>
         <section className="booking-selectors">
-          <DateSelector formData={formData} onChange={handleChange} dispatch={dispatch} fullyBookedDates={fullyBookedDates}/>
+          <DateSelector formData={formData} onChange={handleChange} dispatch={dispatch} fullyBookedDates={fullyBookedDates} iconDropdown={iconDropdown} />
           <GroupSizeSelector formData={formData} onChange={handleChange} customSelectStyles={customSelectStyles} />
           <SeatingSelector formData={formData} onChange={handleChange} customSelectStyles={customSelectStyles} />
           <OccasionSelector formData={formData} onChange={handleChange} customSelectStyles={customSelectStyles} />

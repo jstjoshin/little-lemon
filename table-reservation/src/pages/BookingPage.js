@@ -4,7 +4,7 @@ import BookingMain from "../components/BookingMain";
 
 const BookingPage = ({heroImg}) => {
   return (
-    <main aria-labelledby="booking-heading">
+    <main aria-labelledby="booking-heading" className="booking-page">
       <Hero isHomePage={false} heroImg={heroImg} />
       <section>
         <header>

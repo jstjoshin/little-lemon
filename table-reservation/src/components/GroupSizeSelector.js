@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import Select from "react-select";
+import iconGroupSize from '../images/icon-group-size.svg';
 
 const options = [
   { value: "1 Person", label: "1 Person" },
@@ -42,6 +43,18 @@ const GroupSizeSelector = ({ formData, onChange, customSelectStyles }) => {
         isSearchable={false}
         styles={customSelectStyles}
         aria-label="Select the size of your group"
+        className="group-size-selector"
+        classNamePrefix="custom-select"
+        formatOptionLabel={({ label }, { context }) =>
+          context === "value" ? (
+            <div className="select-background" style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+              <img src={iconGroupSize} alt="" aria-hidden="true" />
+              <span>{label}</span>
+            </div>
+          ) : (
+            <span>{label}</span>
+          )
+        }
       />
     </>
   );
