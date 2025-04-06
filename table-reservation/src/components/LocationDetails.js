@@ -1,7 +1,7 @@
 import React from 'react';
 import mapImg from '../images/little-lemon-map.svg';
 
-const LocationDetails = () => {
+const LocationDetails = ({noClick}) => {
   return (
     <>
       <img src={mapImg} alt="Location map for little lemon resturaunt." className="map-img-location"/>
@@ -12,7 +12,7 @@ const LocationDetails = () => {
           Chicago, IL 70623
         </p>
         <h5>Phone</h5>
-        <a href="tel:+1234567890" onclick="return false;" role="presentation" aria-label="Call Little Lemon at +1234567890">+1 (234) 567-8900</a>
+        <a href="tel:+1234567890" onclick="return false;" role="presentation" aria-label="Call Little Lemon at +1234567890" onClick={noClick} aria-describedby="disabled-description">+1 (234) 567-8900</a>
       </section>
     </>
   );

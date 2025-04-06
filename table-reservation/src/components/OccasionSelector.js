@@ -20,15 +20,13 @@ const OccasionSelector = ({ formData, onChange, customSelectStyles }) => {
     ...customSelectStyles,
     placeholder: (provided) => ({
       ...provided,
-      color: 'var(--primary-green)',
-      fontWeight: 'var(--font-weight-bold)',
-      fontSize: 'var(--font-size-sm)',
       backgroundImage: `url(${iconOccasion})`,
       backgroundPosition: 'left center',
       backgroundRepeat: 'no-repeat',
-      paddingLeft: '2.875rem',
+      paddingLeft: '3.1rem',
     })
   };
+
   return (
     <>
       <Select

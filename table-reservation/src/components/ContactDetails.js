@@ -16,7 +16,7 @@ const ContactDetails = ({ formData, onChange, errors, onBlur }) => {
             aria-required="true"
             aria-describedby="first-name-error"
           />
-          {errors.firstName && <p id="first-name-error" role="alert" style={{ color: "red" }}>{errors.firstName}</p>}
+          {errors.firstName && <p id="first-name-error" role="alert">{errors.firstName}</p>}
         </span>
         <span className="field">
           <label htmlFor="last-name">Last Name*</label>

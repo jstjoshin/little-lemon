@@ -34,7 +34,7 @@ const Specials = ({noClick}) => {
   return (
     <section className='specials' aria-labelledby="specials-heading">
       <header>
-        <h1 id="specials-heading">This weeks specials!</h1>
+        <h1 id="specials-heading">This week's specials!</h1>
         <NavLink to="/menu" aria-label="View full online menu" className="btn-link" role="button" onClick={noClick} aria-describedby="disabled-description">Online Menu</NavLink>
       </header>
       <section>

@@ -4,7 +4,7 @@ const TimeOptions = ({ formData, onChange, availableTimes, timesLoading, timesEr
   const filteredTimes = availableTimes.filter(({ available }) => available);
 
   return (
-    <section>
+    <section className="time-options">
       {timesLoading && (
         <p style={{ fontSize: "16px", color: "#337ab7", fontWeight: "bold" }}>
           Checking for available times...
@@ -22,25 +22,23 @@ const TimeOptions = ({ formData, onChange, availableTimes, timesLoading, timesEr
       )}
 
       {!timesLoading && !timesErrorMessage && filteredTimes.length > 0 && (
-        filteredTimes.map(({ rawTime, displayTime, available }) => (
-          <button
-            key={rawTime}
-            type="button"
-            onClick={() => {
-              onChange("selectedTimeRaw", rawTime);
-              onChange("selectedTimeDisplay", displayTime);
-            }}
-            disabled={!available}
-            style={{
-              margin: "5px",
-              padding: "10px",
-              backgroundColor: formData.selectedTimeDisplay === displayTime ? "#512DA8" : "#ddd",
-              color: formData.selectedTimeDisplay === displayTime ? "#fff" : "#000",
-            }}
-          >
-            {displayTime}
-          </button>
-        ))
+        filteredTimes.map(({ rawTime, displayTime, available }) => {
+          const [time, period] = displayTime.split(" ");
+          return (
+            <button
+              key={rawTime}
+              type="button"
+              onClick={() => {
+                onChange("selectedTimeRaw", rawTime);
+                onChange("selectedTimeDisplay", displayTime);
+              }}
+              disabled={!available}
+              className={`time-button ${formData.selectedTimeDisplay === displayTime ? "selected" : ""}`}
+            >
+              {time} <span>{period}</span>
+            </button>
+          );
+        })
       )}
     </section>
   );

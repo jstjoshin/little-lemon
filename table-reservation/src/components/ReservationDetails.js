@@ -25,7 +25,7 @@ const ReservationDetails = ({ formData }) => {
 
   return (
     <>
-      <section>
+      <section className='selected-details'>
         <span>
           <img src={iconCalSelect} alt="Icon for reserved date." className="icon-details"/>
           <p>{reFormattedDate}</p>
@@ -55,10 +55,19 @@ const ReservationDetails = ({ formData }) => {
           <p>Occasion: {formData.selectedOccasion || "None"}</p>
         </span>
       </section>
-      <section>
-        <p>Name: {formData.firstName} {formData.lastName}</p>
-        <p>Email: {formData.userEmail}</p>
-        <p>Special Requests: {formData.specialRequests || "None"}</p>
+      <section className='inputed-details'>
+        <span>
+          <span>Name:</span>
+          <p>{formData.firstName} {formData.lastName}</p>
+        </span>
+        <span>
+          <span>Email:</span>
+          <p>{formData.userEmail}</p>
+        </span>
+        <span>
+          <span>Special Requests:</span>
+          <p>{formData.specialRequests ? `"${formData.specialRequests}"` : "None"}</p>
+        </span>
       </section>
     </>
   );

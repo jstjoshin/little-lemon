@@ -61,30 +61,6 @@ const BookingForm = ({ availableTimes, dispatch, formData, onFormChange, resetFo
   };
 
   const customSelectStyles = {
-    placeholder: (provided) => ({
-      ...provided,
-      color: 'var(--primary-green)',
-      fontWeight: 'var(--font-weight-bold)',
-      fontSize: 'var(--font-size-sm)',
-    }),
-    singleValue: (provided) => ({
-      ...provided,
-      color: 'var(--primary-green)',
-      fontWeight: 'var(--font-weight-bold)',
-      fontSize: 'var(--font-size-sm)',
-    }),
-    control: (provided, state) => ({
-      ...provided,
-      backgroundColor: 'var(--secondary-grey)',
-      border: 'none',
-      borderRadius: '1rem',
-      padding: '0.594rem 1rem 0.594rem 0.375rem',
-      lineHeight: '2rem',
-      boxShadow: 'none',
-      "&:hover": {
-        cursor: "pointer",
-      },
-    }),
     indicatorSeparator: () => ({
       display: 'none',
     }),
@@ -135,15 +111,18 @@ const BookingForm = ({ availableTimes, dispatch, formData, onFormChange, resetFo
           <SeatingSelector formData={formData} onChange={handleChange} customSelectStyles={customSelectStyles} />
           <OccasionSelector formData={formData} onChange={handleChange} customSelectStyles={customSelectStyles} />
         </section>
-        <section>
-          <h3>Select a Time</h3><p>(required)</p>
+        <section className="times-available">
+          <span className="heading">
+            <h3>Select a Time</h3>
+            <p>(required)</p>
+          </span>
           <TimeOptions formData={formData} onChange={handleChange} availableTimes={availableTimes} dispatch={dispatch} timesErrorMessage={timesErrorMessage} timesLoading={timesLoading} />
         </section>
-        <section>
+        <section className="contact-info">
           <h3>Contact Information</h3>
           <ContactDetails formData={formData} onChange={handleChange} errors={errors} onBlur={onBlur} />
         </section>
-        <button type="submit" disabled={!isFormValid} aria-disabled={!isFormValid}>Complete Reservation</button>
+        <button className="btn-submit" type="submit" disabled={!isFormValid} aria-disabled={!isFormValid}>Complete Reservation</button>
       </fieldset>
     </form>
   );
