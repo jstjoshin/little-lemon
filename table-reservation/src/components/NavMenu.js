@@ -8,7 +8,7 @@ const NavMenu = ({ noClick }) => {
         <NavLink to="/">Home</NavLink>
       </li>
       <li role="menuitem">
-        <NavLink to="/#about">About</NavLink>
+        <NavLink to="/#about" className="section-link">About</NavLink>
       </li>
       <li role="menuitem">
         <NavLink to="/menu" onClick={noClick} aria-describedby="disabled-description">Menu</NavLink>

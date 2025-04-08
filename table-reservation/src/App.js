@@ -37,7 +37,6 @@ function ScrollTo({ location, currentPath, previousPath }) {
       previousPath.current = currentPath;
     }
   }, [location, currentPath, previousPath]);
-
   return null;
 }
 

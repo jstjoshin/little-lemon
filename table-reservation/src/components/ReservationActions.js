@@ -7,9 +7,9 @@ const ReservationActions = ({ formData }) => {
   const [showOptions, setShowOptions] = useState(false);
   const dropdownRef = useRef(null);
   const { firstName, lastName, selectedDate, selectedTimeDisplay } = formData;
-  const eventTitle = `Reservation for ${firstName} ${lastName}`;
-  const eventLocation = "Little Lemon Restaurant";
-  const eventDetails = "Your reservation at Little Lemon resturaunt.";
+  const eventTitle = `Little Lemon Restaurant Reservation for ${firstName} ${lastName}`;
+  const eventLocation = "1956 W Division St Chicago IL 70623";
+  const eventDetails = "Contact Little Lemon resturaunt with any questions or to cancel by phone: +1 (234) 567-8900 or email: info@lillemon.com";
   const { showModal, hideModal } = useContext(ModalContext);
   const navigate = useNavigate();
 

@@ -8,7 +8,7 @@ import iconStar from '../images/icon-star.png';
 
 const StarRating = ({ rating }) => {
   return (
-    <span class="star-rating" aria-label={`${rating}-star`}>
+    <span className="star-rating" aria-label={`${rating}-star`}>
       {Array.from({ length: rating }).map((_, index) => (
       <img key={index} src={iconStar} alt="Star Icon" className="icon-star" aria-hidden="true" />
     ))}
