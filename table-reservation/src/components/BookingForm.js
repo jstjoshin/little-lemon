@@ -30,7 +30,6 @@ const BookingForm = ({ availableTimes, dispatch, formData, onFormChange, resetFo
     const submissionSuccess = window.submitAPI(formData);
 
     if (submissionSuccess) {
-      console.log("Form submitted successfully to the API", formData);
       setReservedTimes((prev) => {
         const updatedTimes = {
           ...prev,

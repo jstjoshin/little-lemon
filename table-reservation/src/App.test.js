@@ -127,7 +127,25 @@ test("user can fill out and submit the BookingForm", () => {
       specialRequests: "A table with a view!",
     })
   );
-  expect(mockNavigate).toHaveBeenCalledWith("/confirmed-booking");
+  expect(mockNavigate).toHaveBeenCalledWith(
+    "/confirmed-booking",
+    expect.objectContaining({
+      state: expect.objectContaining({
+        formData: expect.objectContaining({
+          selectedDate: mockDate,
+          groupSize: "2 People",
+          selectedSeating: "Inside Seating",
+          selectedOccasion: "",
+          selectedTimeRaw: "17:30",
+          selectedTimeDisplay: "5:30 PM",
+          firstName: "Jason",
+          lastName: "Bourne",
+          userEmail: "jb@mail.com",
+          specialRequests: "A table with a view!",
+        }),
+      }),
+    })
+  );
 });
 
 test("should return an empty object when localStorage is empty", () => {
@@ -185,7 +203,25 @@ test("should update localStorage when a reservation is submitted", () => {
   expect(storedData).toEqual({
     [mockDate]: ["17:30"],
   });
-  expect(mockNavigate).toHaveBeenCalledWith("/confirmed-booking");
+  expect(mockNavigate).toHaveBeenCalledWith(
+    "/confirmed-booking",
+    expect.objectContaining({
+      state: expect.objectContaining({
+        formData: expect.objectContaining({
+          selectedDate: mockDate,
+          groupSize: "2 People",
+          selectedSeating: "Inside Seating",
+          selectedOccasion: "",
+          selectedTimeRaw: "17:30",
+          selectedTimeDisplay: "5:30 PM",
+          firstName: "Jason",
+          lastName: "Bourne",
+          userEmail: "jb@mail.com",
+          specialRequests: "A table with a view!",
+        }),
+      }),
+    })
+  );
 });
 
 test("validates that clicked but empty required fields show errors and prevent form submission", () => {
