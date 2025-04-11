@@ -118,17 +118,17 @@ header > *, footer > * {
   color: var(--black);
   line-height: var(--line-height-normal);
   display: flex;
-  padding: 0.95rem 1.75rem;
+  padding: 0.985rem 1.75rem;
   justify-content: center;
   align-items: center;
   border-radius: 1rem;
-  border: 1px solid var(--primary-yellow);
   background: var(--primary-yellow);
   width: fit-content;
   text-align: center;
   box-sizing: border-box;
   transition: all 0.2s ease-in-out;
   cursor: pointer;
+  border: none;
 }
 .btn-link:active, button:not(button:disabled, .btn-menu, .date-selector, .time-button ):active {
   box-shadow: inset 0 0 0 100rem rgba(0, 0, 0, 0.25);
@@ -214,6 +214,7 @@ header .nav-menu a.active:not(.section-link) {
   max-width: 10rem;
   border-radius: 0.5rem;
   opacity: 100%;
+  z-index: 1;
 }
 
 /* Header Nav */
@@ -593,13 +594,13 @@ footer img {
   margin-top: 0.5rem;
   margin-right: 2.5rem;
 }
-footer nav h5:nth-of-type(1) {
+footer nav h4:nth-of-type(1) {
   grid-area: title-1;
 }
-footer nav h5:nth-of-type(2) {
+footer nav h4:nth-of-type(2) {
   grid-area: title-2;
 }
-footer nav h5:nth-of-type(3) {
+footer nav h4:nth-of-type(3) {
   grid-area: title-3;
 }
 footer nav menu:nth-of-type(1) {
@@ -619,7 +620,7 @@ footer nav {
   column-gap: 2.5rem;
   width: 100%;
 }
-footer h5 {
+footer h4 {
   padding-bottom: 0.25rem;
   max-width: 12rem;
 }
@@ -869,10 +870,9 @@ footer p {
 .time-options .time-button{
   color: var(--black);
   background-color: var(--primary-yellow);
-  border: 3px solid var(--primary-yellow);
   border-radius: 1rem;
   display: flex;
-  padding: 0.75rem;
+  padding: 0.907rem;
   justify-content: center;
   align-items: center;
   gap: 0.4rem;
@@ -888,9 +888,9 @@ footer p {
   width: 5.5rem;
 }
 .time-options .time-button.selected {
-  background-color: var(--primary-green-drk);
-  border-color: var(--primary-green);
+  background-color: var(--primary-green);
   color: var(--white);
+  box-shadow: inset 0 0 0 3px var(--primary-green-drk);
 }
 .time-options .time-button span {
   font-size: var(--font-size-base);
@@ -937,8 +937,8 @@ footer p {
   line-height: normal;
   padding: 0.75rem 1rem;
   border-radius: 0.3125rem;
-  border: 1px solid #000;
-  background: #FFF;
+  border: 1px solid var(--secondary-off-black);
+  background: var(--white);
   width: 100%;
   box-sizing: border-box; 
 }
@@ -1125,18 +1125,12 @@ footer p {
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .btn-link:hover, button:not(button:disabled, .btn-menu):hover {
-    background-color: var(--primary-green);
-    border-color: var(--primary-green);
-    color: var(--white);
+  .btn-link:hover, button:not(button:disabled, .btn-menu, .date-selector, .time-button.selected, .btn-add-cal.selected):hover {
+    box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.5), inset 0 0 0 100rem rgba(0, 0, 0, 0.035);
+    text-shadow: -0.15px 0 currentColor, 0.15px 0 currentColor;
   }
-  .hero-home .btn-link:hover {
-    background: var(--secondary-grey);
-    border-color: var(--secondary-grey);
-    color: var(--primary-green);
-  }
-  .nav-menu a:hover, footer a:hover {
-    text-shadow: -0.25px 0 currentColor, 0.25px 0 currentColor;
+  .nav-menu a:hover, footer a:hover, .show-full-control:hover, .specials .item-details a:hover {
+    text-shadow: -0.2px 0 currentColor, 0.2px 0 currentColor;
   }
   button.btn-menu:hover {
     background: none;
@@ -1162,19 +1156,12 @@ footer p {
     cursor: pointer;
   }
   .time-options .time-button:hover {
-    background-color: var(--primary-green);
-    border-color: var(--primary-green);
-    color: var(--white);
+    text-shadow: -0.15px 0 currentColor, 0.15px 0 currentColor;
   }
   .time-options .time-button.selected:hover {
-    background-color: var(--primary-green-drk);
-  }
-  .reservation-actions button:hover {
     background-color: var(--primary-green);
-    color: var(--white);
-  }
-  .reservation-actions button:hover .icon-add-cal {
-    color: var(--white);
+    border-color: var(--primary-green-drk);
+    text-shadow: none;
   }
   .reservation-actions .btn-add-cal.selected:hover {
     background-color: var(--secondary-grey);
@@ -1186,10 +1173,12 @@ footer p {
   }
   .reservation-actions #calendar-options button:hover {
     background-color: var(--secondary-off-black);
+    color: var(--white);
   }
   .reservation-actions .container-btn:last-of-type button:hover {
     background-color: var(--secondary-highlight-two);
     color: var(--black);
+    box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.5);
   }
 }
 
@@ -1527,8 +1516,8 @@ footer p {
                           "menu-3";
     grid-template-columns: 1fr;
   }
-  footer nav h5{
+  footer nav h4{
     max-width: none;
-    padding-top: 2rem;
+    padding-top: 1.5rem;
   }
 }
