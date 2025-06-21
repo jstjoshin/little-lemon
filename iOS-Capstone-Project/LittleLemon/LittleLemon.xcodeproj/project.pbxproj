@@ -6,8 +6,15 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		C2FCAEC92E05E0FA00FFE34A /* Dish+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2FCAEC82E05E0FA00FFE34A /* Dish+CoreDataProperties.swift */; };
+		C2FCAECA2E05E0FA00FFE34A /* Dish+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2FCAEC72E05E0FA00FFE34A /* Dish+CoreDataClass.swift */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		C2B864192E00C3A500821EE3 /* LittleLemon.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LittleLemon.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C2FCAEC72E05E0FA00FFE34A /* Dish+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dish+CoreDataClass.swift"; sourceTree = "<group>"; };
+		C2FCAEC82E05E0FA00FFE34A /* Dish+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dish+CoreDataProperties.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -32,6 +39,8 @@
 		C2B864102E00C3A500821EE3 = {
 			isa = PBXGroup;
 			children = (
+				C2FCAEC72E05E0FA00FFE34A /* Dish+CoreDataClass.swift */,
+				C2FCAEC82E05E0FA00FFE34A /* Dish+CoreDataProperties.swift */,
 				C2B8641B2E00C3A500821EE3 /* LittleLemon */,
 				C2B8641A2E00C3A500821EE3 /* Products */,
 			);
@@ -119,6 +128,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C2FCAEC92E05E0FA00FFE34A /* Dish+CoreDataProperties.swift in Sources */,
+				C2FCAECA2E05E0FA00FFE34A /* Dish+CoreDataClass.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
