@@ -22,7 +22,6 @@ extension Dish {
     @NSManaged public var category: String?
     @NSManaged public var itemDesc: String?
     @NSManaged public var id: Double
-
 }
 
 extension Dish : Identifiable {

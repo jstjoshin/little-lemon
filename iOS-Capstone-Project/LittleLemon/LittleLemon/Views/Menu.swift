@@ -46,29 +46,31 @@ struct Menu: View {
                            sortDescriptors: buildSortDescriptors()) { (dishes: [Dish]) in
                 List {
                     ForEach(dishes) { dish in
-                        HStack {
-                            Text(dish.title ?? "")
-                            Spacer()
-                            Text("$ \(dish.price ?? "0")")
-                            Spacer()
-                            if let imageUrl = URL(string: dish.image ?? "") {
-                                AsyncImage(url: imageUrl) { phase in
-                                    switch phase {
-                                    case .empty:
-                                        ProgressView()
-                                    case .success(let image):
-                                        image
-                                            .resizable()
-                                            .scaledToFit()
-                                            .frame(width: 60, height: 60)
-                                            .cornerRadius(8)
-                                    case .failure:
-                                        Image(systemName: "photo")
-                                            .resizable()
-                                            .frame(width: 60, height: 60)
-                                            .foregroundColor(.gray)
-                                    @unknown default:
-                                        EmptyView()
+                        NavigationLink(destination: DishDetails(dish)) {
+                            HStack {
+                                Text(dish.title ?? "")
+                                Spacer()
+                                Text("$ \(dish.price ?? "0")")
+                                Spacer()
+                                if let imageUrl = URL(string: dish.image ?? "") {
+                                    AsyncImage(url: imageUrl) { phase in
+                                        switch phase {
+                                        case .empty:
+                                            ProgressView()
+                                        case .success(let image):
+                                            image
+                                                .resizable()
+                                                .scaledToFit()
+                                                .frame(width: 60, height: 60)
+                                                .cornerRadius(8)
+                                        case .failure:
+                                            Image(systemName: "photo")
+                                                .resizable()
+                                                .frame(width: 60, height: 60)
+                                                .foregroundColor(.gray)
+                                        @unknown default:
+                                            EmptyView()
+                                        }
                                     }
                                 }
                             }
@@ -78,7 +80,6 @@ struct Menu: View {
             }
         }
         .onAppear() {
-            
             getMenuData(context: viewContext)
         }
     }
