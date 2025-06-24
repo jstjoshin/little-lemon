@@ -16,13 +16,13 @@ struct UserProfile: View {
     @State private var selectedImageData: Data? = nil
     @AppStorage(kUserImageData) private var imageData: Data?
     @ObservedObject var userAvatarData: UserAvatarData
+    @Binding var showProfile: Bool
     
     var body: some View {
-        
-        
         let userFirstName = UserDefaults.standard.string(forKey: kFirstName) ?? ""
         let userLastName = UserDefaults.standard.string(forKey: kLastName) ?? ""
         let userEmail = UserDefaults.standard.string(forKey: kEmail) ?? ""
+        NavBar(showProfile: $showProfile, userAvatarData: userAvatarData, showBackButton: true, showProfileButton: false)
         VStack {
             Text("Personal Information").font(.title2)
             Text("Avatar")
@@ -64,30 +64,11 @@ struct UserProfile: View {
             }
         }
         .navigationBarBackButtonHidden(true)
-        .toolbar {
-            // Centered Logo
-            ToolbarItem(placement: .principal) {
-                Image("little-lemon-logo")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(height: 40)
-            }
-            // Back Button
-            ToolbarItem(placement: .navigationBarLeading) {
-                Button(action: {
-                    dismiss()
-                }) {
-                    Image("back-btn")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(height: 40)
-                }
-            }
-        }
     }
 }
 
 #Preview {
     @Previewable @State var mockIsLoggedIn = true
-    UserProfile(isLoggedIn: $mockIsLoggedIn, userAvatarData: UserAvatarData())
+    @Previewable @State var mockShowProfile = false
+    UserProfile(isLoggedIn: $mockIsLoggedIn, userAvatarData: UserAvatarData(), showProfile: $mockShowProfile)
 }

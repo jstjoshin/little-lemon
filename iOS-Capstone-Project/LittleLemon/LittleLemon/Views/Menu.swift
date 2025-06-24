@@ -12,6 +12,10 @@ struct Menu: View {
     @Environment(\.managedObjectContext) private var viewContext
     @State var searchText = ""
     
+    @Binding var isLoggedIn: Bool
+    @Binding var showProfile: Bool
+    @ObservedObject var userAvatarData: UserAvatarData
+    
     func getMenuData(context: NSManagedObjectContext) {
         PersistenceController.shared.clear()
         let url = URL(string:"https://raw.githubusercontent.com/Meta-Mobile-Developer-PC/Working-With-Data-API/main/menu.json")!
@@ -38,15 +42,29 @@ struct Menu: View {
     
     var body: some View {
         VStack {
-            Text("Little Lemon")
-            Text("Chicago")
-            Text("We are a family owned Mediterranean restaurant, focused on traditional recipes served with a modern twist.")
-            TextField("Search menu", text: $searchText)
+            VStack {
+                Text("Little Lemon")
+                Text("Chicago")
+                Text("We are a family owned Mediterranean restaurant, focused on traditional recipes served with a modern twist.")
+                TextField("Search menu", text: $searchText)
+            }
+            .padding()
+            .background(Color(hex: "#495E57"))
+            
             FetchedObjects(predicate:buildPredicate(searchText: searchText),
                            sortDescriptors: buildSortDescriptors()) { (dishes: [Dish]) in
                 List {
                     ForEach(dishes) { dish in
-                        NavigationLink(destination: DishDetails(dish)) {
+                        ZStack {
+                            NavigationLink(destination: DishDetails(
+                                dish: dish,
+                                isLoggedIn: $isLoggedIn,
+                                showProfile: $showProfile,
+                                userAvatarData: userAvatarData
+                                )) {
+                                EmptyView()
+                            }
+                            .opacity(0)
                             HStack {
                                 Text(dish.title ?? "")
                                 Spacer()
@@ -75,8 +93,12 @@ struct Menu: View {
                                 }
                             }
                         }
+                        .listRowInsets(EdgeInsets())
                     }
                 }
+                .listStyle(.plain)
+                .scrollContentBackground(.hidden)
+                .padding(.horizontal)
             }
         }
         .onAppear() {
@@ -98,6 +120,8 @@ struct Menu: View {
 }
 
 #Preview {
-    Menu()
+    @Previewable @State var mockIsLoggedIn = true
+    @Previewable @State var mockShowProfile = false
+    Menu(isLoggedIn: $mockIsLoggedIn, showProfile: $mockShowProfile, userAvatarData: UserAvatarData())
         .environment(\.managedObjectContext, PersistenceController.shared.container.viewContext)
 }

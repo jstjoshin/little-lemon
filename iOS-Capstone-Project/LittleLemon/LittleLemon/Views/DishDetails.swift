@@ -9,12 +9,25 @@ import SwiftUI
 
 struct DishDetails: View {
     @ObservedObject private var dish:Dish
-    init(_ dish:Dish) {
-        self.dish = dish
-    }
+    @Binding var isLoggedIn: Bool
     @Environment(\.dismiss) private var dismiss
+    @Binding var showProfile: Bool
+    @ObservedObject var userAvatarData: UserAvatarData
+    @State private var showAlert = false
+    init(
+        dish: Dish,
+        isLoggedIn: Binding<Bool>,
+        showProfile: Binding<Bool>,
+        userAvatarData: UserAvatarData
+    ) {
+        self.dish = dish
+        self._isLoggedIn = isLoggedIn
+        self._showProfile = showProfile
+        self.userAvatarData = userAvatarData
+    }
 
     var body: some View {
+        NavBar(showProfile: $showProfile, userAvatarData: userAvatarData, showBackButton: true, showProfileButton: false)
         ScrollView {
             VStack(spacing: 10) {
                 Text(dish.title ?? "")
@@ -41,32 +54,20 @@ struct DishDetails: View {
                 }
                 Text(dish.price ?? "")
                 Text(dish.itemDesc ?? "")
+                Button("Add to Order") {
+                    showAlert = true
+                }
+                .buttonStyle(.borderedProminent)
+                .padding()
+                .alert("Unable to order", isPresented: $showAlert) {
+                    Button("OK", role: .cancel) { }
+                } message: {
+                    Text("This feature is not enabled yet.")
+                }
             }
             .padding()
         }
         .navigationBarBackButtonHidden(true)
-        .toolbar {
-            // Centered Logo
-            ToolbarItem(placement: .principal) {
-                Image("little-lemon-logo")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(height: 40)
-                    .padding(.vertical, 20)
-            }
-            // Back Button
-            ToolbarItem(placement: .navigationBarLeading) {
-                Button(action: {
-                    dismiss()
-                }) {
-                    Image("back-btn")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(height: 40)
-                        .foregroundColor(.white)
-                }
-            }
-        }
     }
 }
 
