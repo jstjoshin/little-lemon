@@ -27,45 +27,47 @@ struct DishDetails: View {
     }
 
     var body: some View {
-        NavBar(showProfile: $showProfile, userAvatarData: userAvatarData, showProfileButton: false)
-        ScrollView {
-            VStack(spacing: 10) {
-                Text(dish.title ?? "")
-                if let imageUrl = URL(string: dish.image ?? "") {
-                    AsyncImage(url: imageUrl) { phase in
-                        switch phase {
-                        case .empty:
-                            ProgressView()
-                        case .success(let image):
-                            image
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 60, height: 60)
-                                .cornerRadius(8)
-                        case .failure:
-                            Image(systemName: "photo")
-                                .resizable()
-                                .frame(width: 60, height: 60)
-                                .foregroundColor(.gray)
-                        @unknown default:
-                            EmptyView()
+        VStack(spacing: 0) {
+            NavBar(showProfile: $showProfile, userAvatarData: userAvatarData, showProfileButton: false)
+            ScrollView {
+                VStack(spacing: 10) {
+                    Text(dish.title ?? "")
+                    if let imageUrl = URL(string: dish.image ?? "") {
+                        AsyncImage(url: imageUrl) { phase in
+                            switch phase {
+                            case .empty:
+                                ProgressView()
+                            case .success(let image):
+                                image
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 60, height: 60)
+                                    .cornerRadius(8)
+                            case .failure:
+                                Image(systemName: "photo")
+                                    .resizable()
+                                    .frame(width: 60, height: 60)
+                                    .foregroundColor(.gray)
+                            @unknown default:
+                                EmptyView()
+                            }
                         }
                     }
+                    Text(dish.price ?? "")
+                    Text(dish.itemDesc ?? "")
+                    Button("Add to Order") {
+                        showAlert = true
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .padding()
+                    .alert("Unable to order", isPresented: $showAlert) {
+                        Button("OK", role: .cancel) { }
+                    } message: {
+                        Text("This feature is not enabled yet.")
+                    }
                 }
-                Text(dish.price ?? "")
-                Text(dish.itemDesc ?? "")
-                Button("Add to Order") {
-                    showAlert = true
-                }
-                .buttonStyle(.borderedProminent)
                 .padding()
-                .alert("Unable to order", isPresented: $showAlert) {
-                    Button("OK", role: .cancel) { }
-                } message: {
-                    Text("This feature is not enabled yet.")
-                }
             }
-            .padding()
         }
         .navigationBarBackButtonHidden(true)
     }

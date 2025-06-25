@@ -27,39 +27,45 @@ struct Onboarding: View {
     var body: some View {
         NavigationStack {
             // NavigationStack & navigationDestination used in place of depricated NaivigationLink & isActive
-            VStack(spacing: 16) {
-                Text("Register")
-                    .font(.headline)
-                    .padding(.bottom,30)
-                TextField("First Name", text: $firstName)
-                    .textFieldStyle(.roundedBorder)
-                TextField("Last Name", text: $lastName)
-                    .textFieldStyle(.roundedBorder)
-                TextField("Email", text: $email)
-                    .textFieldStyle(.roundedBorder)
-                    .keyboardType(.emailAddress)
-                Button("Register"){
-                    // Using .disabled and isFormValid in place of if statement
-                    UserDefaults.standard.set(firstName, forKey: kFirstName)
-                    UserDefaults.standard.set(lastName, forKey: kLastName)
-                    UserDefaults.standard.set(email, forKey: kEmail)
-                    UserDefaults.standard.set(true, forKey: kIsLoggedIn)
-                    UserDefaults.standard.set(avatarData, forKey: kUserImageData)
-                    
-                    firstName = ""
-                    lastName = ""
-                    email = ""
-                    
-                    isLoggedIn = true
+            VStack(alignment: .leading, spacing: 0) {
+                NavBar(showProfile: $showProfile, userAvatarData: UserAvatarData(), showBackButton: false, showProfileButton: false)
+                Hero()
+                VStack(spacing: 20) {
+                    Text("REGISTER")
+                        .font(.customVariableFont("Karla-Regular_ExtraBold", size: 20, weight: 0.0))
+                        .foregroundColor(Color(hex: "#000000"))
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    TextField("First Name", text: $firstName)
+                        .textFieldStyle(.roundedBorder)
+                    TextField("Last Name", text: $lastName)
+                        .textFieldStyle(.roundedBorder)
+                    TextField("Email", text: $email)
+                        .textFieldStyle(.roundedBorder)
+                        .keyboardType(.emailAddress)
+                    Button("Register"){
+                        // Using .disabled and isFormValid in place of if statement
+                        UserDefaults.standard.set(firstName, forKey: kFirstName)
+                        UserDefaults.standard.set(lastName, forKey: kLastName)
+                        UserDefaults.standard.set(email, forKey: kEmail)
+                        UserDefaults.standard.set(true, forKey: kIsLoggedIn)
+                        UserDefaults.standard.set(avatarData, forKey: kUserImageData)
+                        
+                        firstName = ""
+                        lastName = ""
+                        email = ""
+                        
+                        isLoggedIn = true
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .padding()
+                    .disabled(!isFormValid)
+                    .navigationDestination(isPresented: $isLoggedIn) {
+                        Home(isLoggedIn: $isLoggedIn, showProfile: $showProfile, userAvatarData: UserAvatarData())
+                    }
+                    Spacer()
                 }
-                .buttonStyle(.borderedProminent)
-                .padding()
-                .disabled(!isFormValid)
-                .navigationDestination(isPresented: $isLoggedIn) {
-                    Home(isLoggedIn: $isLoggedIn, showProfile: $showProfile, userAvatarData: UserAvatarData())
-                }
+                .padding(16)
             }
-            .padding(30)
             .onAppear {
                 if UserDefaults.standard.bool(forKey: kIsLoggedIn) {
                     isLoggedIn = true

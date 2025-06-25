@@ -15,10 +15,10 @@ struct Home: View {
     @ObservedObject var userAvatarData: UserAvatarData
     
     var body: some View {
-        NavBar(showProfile: $showProfile, userAvatarData: userAvatarData, showBackButton: false)
         NavigationStack {
         //using NavigationStack instead of TabView to match the design guidlines and flow
-            VStack {
+            VStack(spacing: 0) {
+                NavBar(showProfile: $showProfile, userAvatarData: userAvatarData, showBackButton: false)
                 Menu(isLoggedIn: $isLoggedIn, showProfile: $showProfile, userAvatarData: userAvatarData)
             }
             .environment(\.managedObjectContext, persistence.container.viewContext)

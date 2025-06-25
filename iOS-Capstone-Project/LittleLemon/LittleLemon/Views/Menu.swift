@@ -54,28 +54,11 @@ struct Menu: View {
     }
     
     var body: some View {
-        VStack {
-            VStack(alignment: .leading, spacing: 10) {
-                VStack(alignment: .leading, spacing: -20) {
-                    Text("Little Lemon")
-                        .font(.customVariableFont("Markazi Text", size: 64, weight: 0.23))
-                        .foregroundColor(Color(hex: "#F4CE14"))
-                    Text("Chicago")
-                        .font(.customVariableFont("Markazi Text", size: 40, weight: 0.0))
-                }
-                HStack(alignment: .top, spacing: 0) {
-                    Text("We are a family owned Mediterranean restaurant, focused on traditional recipes served with a modern twist.")
-                        .font(.customVariableFont("Karla", size: 18, weight: 0.23))
-                        .frame(maxWidth: .infinity, alignment: .topLeading)
-                        .fixedSize(horizontal: false, vertical: true)
-                    Image("hero-image")
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: 140, height: 140)
-                        .cornerRadius(16)
-                        .padding(.leading, 10)
-                }
+        VStack(spacing: 0) {
+            Hero()
+            VStack {
                 TextField("Search menu", text: $searchText)
+                    .font(.customVariableFont("Karla-Regular_Medium", size: 16, weight: 0.0))
                     .padding(10)
                     .padding(.leading, 22)
                     .background(Color(hex: "#ffffff"))
@@ -89,32 +72,38 @@ struct Menu: View {
                                 .padding(.leading, 8)
                         }
                     )
-                    .padding(.top, 8)
             }
             .foregroundColor(Color(hex: "#ffffff"))
-            .padding(16)
+            .padding(.horizontal, 16)
+            .padding(.bottom, 16)
             .background(Color(hex: "#495E57"))
             Text("ORDER FOR DELIVERY")
+                .font(.customVariableFont("Karla-Regular_ExtraBold", size: 20, weight: 0.0))
+                .foregroundColor(Color(hex: "#000000"))
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.horizontal, 16)
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
                     Button(action: {
                         selectedCategory = nil
                     }) {
                         Text("Full Menu")
+                            .font(.customVariableFont("Karla-Regular_ExtraBold", size: 16, weight: 0.0))
                             .padding(8)
-                            .background(selectedCategory == nil ? Color.blue : Color.gray.opacity(0.2))
-                            .foregroundColor(.white)
-                            .cornerRadius(8)
+                            .background(selectedCategory == nil ? Color(hex: "#495E57") : Color(hex: "#EDEFEE"))
+                            .foregroundColor(selectedCategory == nil ? Color(hex: "#ffffff") : Color(hex: "#495E57"))
+                            .cornerRadius(16)
                     }
                     ForEach(categories, id: \.self) { category in
                         Button(action: {
                             selectedCategory = category
                         }) {
-                            Text(category)
+                            Text(category.capitalized)
+                                .font(.customVariableFont("Karla-Regular_ExtraBold", size: 16, weight: 0.0))
                                 .padding(8)
-                                .background(selectedCategory == category ? Color.blue : Color.gray.opacity(0.2))
-                                .foregroundColor(.white)
-                                .cornerRadius(8)
+                                .background(selectedCategory == category ? Color(hex: "#495E57") : Color(hex: "#EDEFEE"))
+                                .foregroundColor(selectedCategory == category ? Color(hex: "#ffffff") : Color(hex: "#495E57"))
+                                .cornerRadius(16)
                         }
                     }
                 }.padding(.horizontal)
@@ -179,10 +168,9 @@ struct Menu: View {
     }
     
     func buildPredicate(searchText: String, category: String?) -> NSPredicate {
-        let trimmedSearch = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
         var predicates: [NSPredicate] = []
-        if !trimmedSearch.isEmpty {
-            predicates.append(NSPredicate(format: "title CONTAINS[cd] %@", trimmedSearch))
+        if !searchText.isEmpty {
+            predicates.append(NSPredicate(format: "title CONTAINS[cd] %@", searchText))
         }
         if let category = category {
             predicates.append(NSPredicate(format: "category == %@", category))

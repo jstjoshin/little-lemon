@@ -55,7 +55,7 @@ struct NavBar: View {
         }
         .padding(.horizontal, 15)
         .padding(.top, 0)
-        .padding(.bottom, 10)
+        .padding(.bottom, 15)
     }
 }
 
