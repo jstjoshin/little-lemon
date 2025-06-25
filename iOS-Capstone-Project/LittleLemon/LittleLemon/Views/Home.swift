@@ -15,7 +15,7 @@ struct Home: View {
     @ObservedObject var userAvatarData: UserAvatarData
     
     var body: some View {
-        NavBar(showProfile: $showProfile, userAvatarData: userAvatarData, showBackButton: false, showProfileButton: true)
+        NavBar(showProfile: $showProfile, userAvatarData: userAvatarData, showBackButton: false)
         NavigationStack {
         //using NavigationStack instead of TabView to match the design guidlines and flow
             VStack {

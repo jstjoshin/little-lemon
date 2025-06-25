@@ -22,7 +22,7 @@ struct UserProfile: View {
         let userFirstName = UserDefaults.standard.string(forKey: kFirstName) ?? ""
         let userLastName = UserDefaults.standard.string(forKey: kLastName) ?? ""
         let userEmail = UserDefaults.standard.string(forKey: kEmail) ?? ""
-        NavBar(showProfile: $showProfile, userAvatarData: userAvatarData, showBackButton: true, showProfileButton: false)
+        NavBar(showProfile: $showProfile, userAvatarData: userAvatarData, showProfileButton: false)
         VStack {
             Text("Personal Information").font(.title2)
             Text("Avatar")

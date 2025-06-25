@@ -10,11 +10,14 @@ import CoreData
 
 struct Menu: View {
     @Environment(\.managedObjectContext) private var viewContext
-    @State var searchText = ""
     
     @Binding var isLoggedIn: Bool
     @Binding var showProfile: Bool
     @ObservedObject var userAvatarData: UserAvatarData
+    
+    @State var searchText = ""
+    @State var selectedCategory: String? = nil
+    @State var categories: [String] = []
     
     func getMenuData(context: NSManagedObjectContext) {
         PersistenceController.shared.clear()
@@ -32,27 +35,95 @@ struct Menu: View {
                         dish.image = item.image
                         dish.id = item.id
                         dish.itemDesc = item.itemDesc
+                        dish.category = item.category
                     }
                     try? viewContext.save()
+                    loadCategories()
                 }
             }
         }
         task.resume()
     }
+   func loadCategories() {
+        let fetchRequest: NSFetchRequest<Dish> = Dish.fetchRequest()
+        fetchRequest.sortDescriptors = []
+        if let results = try? viewContext.fetch(fetchRequest) {
+            let catSet = Set(results.compactMap { $0.category })
+            self.categories = Array(catSet).sorted()
+        }
+    }
     
     var body: some View {
         VStack {
-            VStack {
-                Text("Little Lemon")
-                Text("Chicago")
-                Text("We are a family owned Mediterranean restaurant, focused on traditional recipes served with a modern twist.")
+            VStack(alignment: .leading, spacing: 10) {
+                VStack(alignment: .leading, spacing: -20) {
+                    Text("Little Lemon")
+                        .font(.customVariableFont("Markazi Text", size: 64, weight: 0.23))
+                        .foregroundColor(Color(hex: "#F4CE14"))
+                    Text("Chicago")
+                        .font(.customVariableFont("Markazi Text", size: 40, weight: 0.0))
+                }
+                HStack(alignment: .top, spacing: 0) {
+                    Text("We are a family owned Mediterranean restaurant, focused on traditional recipes served with a modern twist.")
+                        .font(.customVariableFont("Karla", size: 18, weight: 0.23))
+                        .frame(maxWidth: .infinity, alignment: .topLeading)
+                        .fixedSize(horizontal: false, vertical: true)
+                    Image("hero-image")
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 140, height: 140)
+                        .cornerRadius(16)
+                        .padding(.leading, 10)
+                }
                 TextField("Search menu", text: $searchText)
+                    .padding(10)
+                    .padding(.leading, 22)
+                    .background(Color(hex: "#ffffff"))
+                    .foregroundColor(Color(hex: "#333333"))
+                    .cornerRadius(8)
+                    .overlay(
+                        HStack {
+                            Image(systemName: "magnifyingglass")
+                                .foregroundColor(.gray)
+                                .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                                .padding(.leading, 8)
+                        }
+                    )
+                    .padding(.top, 8)
             }
-            .padding()
+            .foregroundColor(Color(hex: "#ffffff"))
+            .padding(16)
             .background(Color(hex: "#495E57"))
+            Text("ORDER FOR DELIVERY")
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack {
+                    Button(action: {
+                        selectedCategory = nil
+                    }) {
+                        Text("Full Menu")
+                            .padding(8)
+                            .background(selectedCategory == nil ? Color.blue : Color.gray.opacity(0.2))
+                            .foregroundColor(.white)
+                            .cornerRadius(8)
+                    }
+                    ForEach(categories, id: \.self) { category in
+                        Button(action: {
+                            selectedCategory = category
+                        }) {
+                            Text(category)
+                                .padding(8)
+                                .background(selectedCategory == category ? Color.blue : Color.gray.opacity(0.2))
+                                .foregroundColor(.white)
+                                .cornerRadius(8)
+                        }
+                    }
+                }.padding(.horizontal)
+            }
             
-            FetchedObjects(predicate:buildPredicate(searchText: searchText),
-                           sortDescriptors: buildSortDescriptors()) { (dishes: [Dish]) in
+            FetchedObjects(
+                predicate: buildPredicate(searchText: searchText, category: selectedCategory),
+                sortDescriptors: buildSortDescriptors()
+            ) { (dishes: [Dish]) in
                 List {
                     ForEach(dishes) { dish in
                         ZStack {
@@ -103,14 +174,27 @@ struct Menu: View {
         }
         .onAppear() {
             getMenuData(context: viewContext)
+            selectedCategory = nil
         }
     }
     
-    func buildPredicate(searchText: String) -> NSPredicate {
-        if searchText.isEmpty {
-            return NSPredicate(value: true)
+    func buildPredicate(searchText: String, category: String?) -> NSPredicate {
+        let trimmedSearch = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
+        var predicates: [NSPredicate] = []
+        if !trimmedSearch.isEmpty {
+            predicates.append(NSPredicate(format: "title CONTAINS[cd] %@", trimmedSearch))
         }
-        return NSPredicate(format: "title CONTAINS[cd] %@", searchText)
+        if let category = category {
+            predicates.append(NSPredicate(format: "category == %@", category))
+        }
+        switch predicates.count {
+        case 0:
+            return NSPredicate(value: true)
+        case 1:
+            return predicates[0]
+        default:
+            return NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
+        }
     }
     func buildSortDescriptors () -> [NSSortDescriptor] {
         return [

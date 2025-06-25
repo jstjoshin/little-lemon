@@ -12,8 +12,8 @@ struct NavBar: View {
     @Binding var showProfile: Bool
     @ObservedObject var userAvatarData: UserAvatarData
     
-    var showBackButton: Bool
-    var showProfileButton: Bool
+    var showBackButton: Bool = true
+    var showProfileButton: Bool = true
     
     var body: some View {
         HStack {
@@ -54,7 +54,8 @@ struct NavBar: View {
             }
         }
         .padding(.horizontal, 15)
-        .padding(.vertical, 15)
+        .padding(.top, 0)
+        .padding(.bottom, 10)
     }
 }
 

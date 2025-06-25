@@ -27,7 +27,7 @@ struct DishDetails: View {
     }
 
     var body: some View {
-        NavBar(showProfile: $showProfile, userAvatarData: userAvatarData, showBackButton: true, showProfileButton: false)
+        NavBar(showProfile: $showProfile, userAvatarData: userAvatarData, showProfileButton: false)
         ScrollView {
             VStack(spacing: 10) {
                 Text(dish.title ?? "")
