@@ -18,6 +18,7 @@ struct Menu: View {
     @State var searchText = ""
     @State var selectedCategory: String? = nil
     @State var categories: [String] = []
+    @StateObject private var keyboard = KeyboardResponder()
     
     func getMenuData(context: NSManagedObjectContext) {
         PersistenceController.shared.clear()
@@ -58,11 +59,11 @@ struct Menu: View {
             Hero()
             VStack {
                 TextField("Search menu", text: $searchText)
-                    .font(.customVariableFont("Karla-Regular_Medium", size: 16, weight: 0.0))
+                    .font(.customVariableFont("Karla-Regular_Medium", size: 19, weight: 0.0))
                     .padding(10)
                     .padding(.leading, 22)
                     .background(Color(hex: "#ffffff"))
-                    .foregroundColor(Color(hex: "#333333"))
+                    .foregroundColor(Color(hex: "#000000"))
                     .cornerRadius(8)
                     .overlay(
                         HStack {
@@ -77,13 +78,13 @@ struct Menu: View {
             .padding(.horizontal, 16)
             .padding(.bottom, 16)
             .background(Color(hex: "#495E57"))
-            Text("ORDER FOR DELIVERY")
+            Text("ORDER FOR DELIVERY!")
                 .font(.customVariableFont("Karla-Regular_ExtraBold", size: 20, weight: 0.0))
                 .foregroundColor(Color(hex: "#000000"))
                 .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.horizontal, 16)
+                .padding(16)
             ScrollView(.horizontal, showsIndicators: false) {
-                HStack {
+                HStack(spacing: 16) {
                     Button(action: {
                         selectedCategory = nil
                     }) {
@@ -92,7 +93,7 @@ struct Menu: View {
                             .padding(8)
                             .background(selectedCategory == nil ? Color(hex: "#495E57") : Color(hex: "#EDEFEE"))
                             .foregroundColor(selectedCategory == nil ? Color(hex: "#ffffff") : Color(hex: "#495E57"))
-                            .cornerRadius(16)
+                            .cornerRadius(8)
                     }
                     ForEach(categories, id: \.self) { category in
                         Button(action: {
@@ -103,10 +104,18 @@ struct Menu: View {
                                 .padding(8)
                                 .background(selectedCategory == category ? Color(hex: "#495E57") : Color(hex: "#EDEFEE"))
                                 .foregroundColor(selectedCategory == category ? Color(hex: "#ffffff") : Color(hex: "#495E57"))
-                                .cornerRadius(16)
+                                .cornerRadius(8)
                         }
                     }
-                }.padding(.horizontal)
+                }
+                .padding(.horizontal)
+                .padding(.bottom, 16)
+                .overlay(
+                    Rectangle()
+                        .frame(height: 1)
+                        .foregroundColor(Color.gray.opacity(0.3)),
+                    alignment: .bottom
+                )
             }
             
             FetchedObjects(
@@ -125,10 +134,20 @@ struct Menu: View {
                                 EmptyView()
                             }
                             .opacity(0)
-                            HStack {
-                                Text(dish.title ?? "")
-                                Spacer()
-                                Text("$ \(dish.price ?? "0")")
+                            HStack(spacing: 16) {
+                                VStack(alignment: .leading, spacing: 8) {
+                                    Text(dish.title ?? "")
+                                    .font(.customVariableFont("Karla-Regular_Bold", size: 18, weight: 0.0))
+                                    .foregroundColor(Color(hex: "#000000"))
+                                    Text(dish.itemDesc ?? "")
+                                    .font(.customVariableFont("Karla-Regular", size: 16, weight: 0.0))
+                                    .lineLimit(2)
+                                    .truncationMode(.tail)
+                                    Text("$\(dish.price ?? "0").00")
+                                    .font(.customVariableFont("Karla-Regular_Medium", size: 18, weight: 0.0))
+                                }
+                                .foregroundColor(Color(hex: "#495E57"))
+                                .padding(.vertical, 16)
                                 Spacer()
                                 if let imageUrl = URL(string: dish.image ?? "") {
                                     AsyncImage(url: imageUrl) { phase in
@@ -138,18 +157,21 @@ struct Menu: View {
                                         case .success(let image):
                                             image
                                                 .resizable()
-                                                .scaledToFit()
-                                                .frame(width: 60, height: 60)
-                                                .cornerRadius(8)
+                                                .scaledToFill()
+                                                .frame(width: 83, height: 83)
+                                                .clipped()
                                         case .failure:
                                             Image(systemName: "photo")
                                                 .resizable()
-                                                .frame(width: 60, height: 60)
+                                                .scaledToFill()
+                                                .frame(width: 83, height: 83)
+                                                .clipped()
                                                 .foregroundColor(.gray)
                                         @unknown default:
                                             EmptyView()
                                         }
                                     }
+                                    .frame(width: 83, height: 83)
                                 }
                             }
                         }
@@ -157,13 +179,17 @@ struct Menu: View {
                     }
                 }
                 .listStyle(.plain)
+                .scrollIndicators(.hidden)
                 .scrollContentBackground(.hidden)
                 .padding(.horizontal)
             }
         }
+        .padding(.top, -max(keyboard.keyboardHeight, 0))
+        .animation(.easeOut(duration: 0.2), value: keyboard.keyboardHeight)
         .onAppear() {
             getMenuData(context: viewContext)
             selectedCategory = nil
+            searchText = ""
         }
     }
     

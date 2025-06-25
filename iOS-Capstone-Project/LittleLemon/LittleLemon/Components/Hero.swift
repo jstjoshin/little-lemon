@@ -36,7 +36,3 @@ struct Hero: View {
         .background(Color(hex: "#495E57"))
     }
 }
-
-#Preview {
-    Hero()
-}

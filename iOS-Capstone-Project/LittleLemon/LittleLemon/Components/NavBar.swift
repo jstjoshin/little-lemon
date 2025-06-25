@@ -44,6 +44,7 @@ struct NavBar: View {
                 }) {
                     (UserAvatarView(userAvatarData: userAvatarData)
                         .frame(width: 40, height: 40))
+                        .foregroundColor(Color(hex: "#495E57"))
                 }
             }
             else if !showProfileButton {
@@ -58,7 +59,3 @@ struct NavBar: View {
         .padding(.bottom, 15)
     }
 }
-
-//#Preview {
-  //  NavBar()
-//}

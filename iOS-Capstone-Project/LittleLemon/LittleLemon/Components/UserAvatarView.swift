@@ -29,7 +29,3 @@ struct UserAvatarView: View {
         }
     }
 }
-
-#Preview {
-    UserAvatarView(userAvatarData: UserAvatarData())
-}

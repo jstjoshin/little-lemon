@@ -22,39 +22,37 @@ struct UserProfile: View {
         let userFirstName = UserDefaults.standard.string(forKey: kFirstName) ?? ""
         let userLastName = UserDefaults.standard.string(forKey: kLastName) ?? ""
         let userEmail = UserDefaults.standard.string(forKey: kEmail) ?? ""
-        VStack(spacing: 0) {
-            NavBar(showProfile: $showProfile, userAvatarData: userAvatarData, showProfileButton: false)
-            ScrollView {
-                Text("Personal Information").font(.title2)
-                Text("Avatar")
-                HStack {
-                    UserAvatarView(userAvatarData: userAvatarData)
-                        .frame(width: 100, height: 100)
-                    PhotosPicker("Change", selection: $selectedItem, matching: .images)
-                                        .buttonStyle(.bordered)
-                    Button("Remove") {
-                        UserDefaults.standard.removeObject(forKey: kUserImageData)
-                        userAvatarData.avatarImage = nil
-                    }
-                    .buttonStyle(.bordered)
-                }
-                Text(userFirstName)
-                Text(userLastName)
-                Text(userEmail)
-                Button("Logout") {
-                    UserDefaults.standard.set(false, forKey: kIsLoggedIn)
-                    UserDefaults.standard.removeObject(forKey: kFirstName)
-                    UserDefaults.standard.removeObject(forKey: kLastName)
-                    UserDefaults.standard.removeObject(forKey: kEmail)
+        NavBar(showProfile: $showProfile, userAvatarData: userAvatarData, showProfileButton: false)
+        ScrollView {
+            Text("Personal Information").font(.title2)
+            Text("Avatar")
+            HStack {
+                UserAvatarView(userAvatarData: userAvatarData)
+                    .frame(width: 100, height: 100)
+                PhotosPicker("Change", selection: $selectedItem, matching: .images)
+                                    .buttonStyle(.bordered)
+                Button("Remove") {
                     UserDefaults.standard.removeObject(forKey: kUserImageData)
-                    isLoggedIn = false
-                    // self.presentation.wrappedValue.dismiss() as it does not work with navigationStack setting isLogged to false instead as it resets the stack
+                    userAvatarData.avatarImage = nil
                 }
-                .buttonStyle(.borderedProminent)
-                .padding()
+                .buttonStyle(.bordered)
             }
+            Text(userFirstName)
+            Text(userLastName)
+            Text(userEmail)
+            Button("Logout") {
+                UserDefaults.standard.set(false, forKey: kIsLoggedIn)
+                UserDefaults.standard.removeObject(forKey: kFirstName)
+                UserDefaults.standard.removeObject(forKey: kLastName)
+                UserDefaults.standard.removeObject(forKey: kEmail)
+                UserDefaults.standard.removeObject(forKey: kUserImageData)
+                isLoggedIn = false
+                // self.presentation.wrappedValue.dismiss() as it does not work with navigationStack setting isLogged to false instead as it resets the stack
+            }
+            .buttonStyle(.borderedProminent)
+            .padding()
         }
-        .padding()
+        .padding(16)
         .onChange(of: selectedItem) {
             Task {
                 if let data = try? await selectedItem?.loadTransferable(type: Data.self) {

@@ -19,6 +19,7 @@ struct Onboarding: View {
     @State private var isLoggedIn = false
     @State private var showProfile = false
     @State private var avatarData: Data? = nil
+    @StateObject private var keyboard = KeyboardResponder()
     
     var isFormValid: Bool {
         !firstName.isEmpty && !lastName.isEmpty && !email.isEmpty && email.contains("@") && email.contains(".")
@@ -29,20 +30,19 @@ struct Onboarding: View {
             // NavigationStack & navigationDestination used in place of depricated NaivigationLink & isActive
             VStack(alignment: .leading, spacing: 0) {
                 NavBar(showProfile: $showProfile, userAvatarData: UserAvatarData(), showBackButton: false, showProfileButton: false)
+                    .padding(.top, 20)
                 Hero()
                 VStack(spacing: 20) {
-                    Text("REGISTER")
+                    Text("Join now to start your order")
                         .font(.customVariableFont("Karla-Regular_ExtraBold", size: 20, weight: 0.0))
                         .foregroundColor(Color(hex: "#000000"))
                         .frame(maxWidth: .infinity, alignment: .leading)
-                    TextField("First Name", text: $firstName)
-                        .textFieldStyle(.roundedBorder)
-                    TextField("Last Name", text: $lastName)
-                        .textFieldStyle(.roundedBorder)
-                    TextField("Email", text: $email)
-                        .textFieldStyle(.roundedBorder)
+                    LabeledTextField(label: "First Name*", placeholder: "Jane", text: $firstName)
+                    LabeledTextField(label: "Last Name*", placeholder: "Doe", text: $lastName)
+                    LabeledTextField(label: "Email*", placeholder: "you@example.com", text: $email)
                         .keyboardType(.emailAddress)
-                    Button("Register"){
+                    
+                    Button("Sign Up"){
                         // Using .disabled and isFormValid in place of if statement
                         UserDefaults.standard.set(firstName, forKey: kFirstName)
                         UserDefaults.standard.set(lastName, forKey: kLastName)
@@ -56,8 +56,8 @@ struct Onboarding: View {
                         
                         isLoggedIn = true
                     }
-                    .buttonStyle(.borderedProminent)
-                    .padding()
+                    .buttonStyle(PrimaryButtonStyle())
+                    .padding(.vertical, 16)
                     .disabled(!isFormValid)
                     .navigationDestination(isPresented: $isLoggedIn) {
                         Home(isLoggedIn: $isLoggedIn, showProfile: $showProfile, userAvatarData: UserAvatarData())
@@ -65,6 +65,11 @@ struct Onboarding: View {
                     Spacer()
                 }
                 .padding(16)
+            }
+            .padding(.bottom, keyboard.keyboardHeight)
+            .animation(.easeOut(duration: 0.2), value: keyboard.keyboardHeight)
+            .onTapGesture {
+                UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
             }
             .onAppear {
                 if UserDefaults.standard.bool(forKey: kIsLoggedIn) {
