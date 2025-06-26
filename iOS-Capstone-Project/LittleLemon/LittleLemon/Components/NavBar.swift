@@ -26,6 +26,7 @@ struct NavBar: View {
                         .scaledToFit()
                         .frame(width: 40, height: 40)
                 }
+                .buttonStyle(ScalingButtonStyle())
             } else if !showBackButton {
                 VStack {
                     EmptyView()
@@ -46,6 +47,7 @@ struct NavBar: View {
                         .frame(width: 40, height: 40))
                         .foregroundColor(Color(hex: "#495E57"))
                 }
+                .buttonStyle(ScalingButtonStyle())
             }
             else if !showProfileButton {
                 VStack {

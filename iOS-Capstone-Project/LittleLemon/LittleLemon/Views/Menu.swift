@@ -106,6 +106,7 @@ struct Menu: View {
                                 .foregroundColor(selectedCategory == category ? Color(hex: "#ffffff") : Color(hex: "#495E57"))
                                 .cornerRadius(8)
                         }
+                        .buttonStyle(ScalingButtonStyle())
                     }
                 }
                 .padding(.horizontal)
@@ -171,7 +172,6 @@ struct Menu: View {
                                             EmptyView()
                                         }
                                     }
-                                    .frame(width: 83, height: 83)
                                 }
                             }
                         }
@@ -181,7 +181,7 @@ struct Menu: View {
                 .listStyle(.plain)
                 .scrollIndicators(.hidden)
                 .scrollContentBackground(.hidden)
-                .padding(.horizontal)
+                .padding(.horizontal, 16)
             }
         }
         .padding(.top, -max(keyboard.keyboardHeight, 0))
