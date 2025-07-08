@@ -62,6 +62,7 @@ const SecondaryButton = ({
     fontWeight: '700',
     marginVertical: 21,
     marginHorizontal: 14,
+    width: '100%',
     ...(labelStyle || {}),
   };
   const computedStyle = {
@@ -105,10 +106,12 @@ const TertiaryButton = ({
     fontWeight: '700',
     marginVertical: 21,
     marginHorizontal: 14,
+    width: '100%',
     ...(labelStyle || {}),
   };
   const computedStyle = {
     borderRadius: 16,
+    flex: 1,
     backgroundColor: bgColor,
     ...(style || {}),
   };

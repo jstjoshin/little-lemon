@@ -5,6 +5,7 @@ import { PrimaryButton } from '../components/Button';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ProfileImageContext } from '../utils/ContextProvider';
 import InputText from '../components/InputText';
+import Hero from '../components/Hero';
 
 const Onboarding = ({ setIsOnboardingCompleted }) => {
   const [email, onChangeEmail] = useState('');
@@ -37,8 +38,11 @@ const Onboarding = ({ setIsOnboardingCompleted }) => {
     style={styles.container}
     behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
   >
-    <ScrollView style={styles.innerContainer}>
-      <View style={styles.vStack}>
+    <ScrollView>
+      <View style={styles.heroContainer}>
+        <Hero />
+      </View>
+      <View style={styles.innerContainer}>
         <Text style={styles.headerText}>Join now to place your order</Text>
         <View style={styles.inputFieldStack}>
           <InputText
@@ -102,22 +106,25 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#ffffff',
   },
+  heroContainer: {
+    borderBottomWidth: 25,
+    borderBottomColor: '#495E57',
+  },
   innerContainer: {
-    padding: 20,
+    flexDirection: 'column',
+    gap: 20,
+    paddingHorizontal: 20,
+    paddingBottom: 50,
   },
   hStack: {
     flexDirection: 'row',
     gap: 20,
     alignItems: 'center',
   },
-  vStack: {
-    flexDirection: 'column',
-    gap: 20,
-  },
   buttonStack: {
     flexDirection: 'column',
     gap: 30,
-    paddingTop: 30,
+    paddingTop: 50,
     paddingBottom: 60,
   },
   inputFieldStack: {
@@ -132,29 +139,6 @@ const styles = StyleSheet.create({
     fontFamily: 'Karla',
     fontWeight: '800',
   },
-  iconImage: {
-    width: 147.5,
-    height: 40,
-    marginBottom: 30,
-    alignSelf: 'center',
-  },
-  buttonContainer: {
-    paddingVertical: 20,
-  },
-  button: {
-    fontSize: 22,
-    padding: 10,
-    backgroundColor: '#495e57',
-    borderRadius: 16,
-  },
-  buttonDisabled: {
-    opacity: '0.2',
-  },
-  buttonText: {
-    color: '#fff',
-    textAlign: 'center',
-    fontSize: 20,
-  },
   errorText: {
     color: '#B3271E',
     fontSize: 14,
@@ -162,6 +146,6 @@ const styles = StyleSheet.create({
     marginBottom: -26,
     fontFamily: 'Karla',
     fontWeight: '500',
-  }
+  },
 });
 

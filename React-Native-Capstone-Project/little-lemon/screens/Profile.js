@@ -7,6 +7,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { ProfileImageContext } from '../utils/ContextProvider';
 import CustomCheckbox from '../components/Checkbox';
 import InputText from '../components/InputText';
+import { dropMenuTable } from '../utils/db';
 
 const Profile = ({ navigation, setIsOnboardingCompleted }) => {
   const {
@@ -107,17 +108,19 @@ const Profile = ({ navigation, setIsOnboardingCompleted }) => {
                 )}
               </View>
             </View>
-            <SecondaryButton
-              text="Change"
-              onPress={pickImage}
-            />
-            <TertiaryButton
-              text="Remove"
-              onPress={async () => {
-              await AsyncStorage.multiRemove(['@profileImage']);
-              setProfileImage(null);
-            }}
-            />
+            <View style={styles.profileButtonContatiner}>
+              <SecondaryButton
+                text="Change"
+                onPress={pickImage}
+              />
+              <TertiaryButton
+                text="Remove"
+                onPress={async () => {
+                  await AsyncStorage.multiRemove(['@profileImage']);
+                  setProfileImage(null);
+                }}
+              />
+            </View>
           </View>
           <View style={styles.inputFieldStack}>
             <InputText
@@ -237,6 +240,7 @@ const Profile = ({ navigation, setIsOnboardingCompleted }) => {
                   '@notifySpecialOffers',
                   '@notifyNewsletter'
                 ]);
+                // await dropMenuTable();
                 setProfileImage(null);
                 setIsOnboardingCompleted(false);
               }}
@@ -321,4 +325,11 @@ const styles = StyleSheet.create({
     fontFamily: 'Karla',
     fontWeight: '500',
   },
+  profileButtonContatiner: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 16,
+    gap: 20,
+    flexShrink: 1,
+  }
 });

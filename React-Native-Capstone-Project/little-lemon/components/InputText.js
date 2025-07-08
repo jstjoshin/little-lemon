@@ -5,7 +5,7 @@ const InputText = (props) => (
   <TextInput
     {...props}
     contentStyle={{ fontFamily: 'Karla', fontWeight: 500, marginVertical: 2 }}
-    style={[{ fontSize: 20 }, props.style]}
+    style={[{ fontSize: 21 }, props.style]}
   />
 );
 
