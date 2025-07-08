@@ -20,11 +20,13 @@ const PrimaryButton = ({
     fontWeight: '800',
     marginVertical: 21,
     marginHorizontal: 16,
+    flexGrow: 1,
     ...(labelStyle || {}),
   };
   const computedStyle = {
     borderRadius: 16,
     backgroundColor: '#F4CE14',
+    flexGrow: 1,
     ...(style || {}),
   };
   return (
@@ -61,13 +63,13 @@ const SecondaryButton = ({
     fontFamily: 'Karla',
     fontWeight: '700',
     marginVertical: 21,
-    marginHorizontal: 14,
-    width: '100%',
+    marginHorizontal: 12,
+    flexGrow: 1,
     ...(labelStyle || {}),
   };
   const computedStyle = {
     borderRadius: 16,
-    flex: 1,
+    flexGrow: 1,
     ...(style || {}),
   };
   return (
@@ -105,14 +107,14 @@ const TertiaryButton = ({
     fontFamily: 'Karla',
     fontWeight: '700',
     marginVertical: 21,
-    marginHorizontal: 14,
-    width: '100%',
+    marginHorizontal: 12,
+    flexGrow: 1,
     ...(labelStyle || {}),
   };
   const computedStyle = {
     borderRadius: 16,
-    flex: 1,
     backgroundColor: bgColor,
+    flexGrow: 1,
     ...(style || {}),
   };
   return (

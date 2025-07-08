@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
   contentContainer: {
     flexDirection: 'row',
     alignItems: 'flex-start',
-    gap: 10,
+    gap: 16,
     flex: 1,
   },
   description: {
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Karla',
     fontWeight: '500',
     alignSelf: 'flex-start',
-    maxWidth: 240,
+    flexShrink: 1,
   },
   image: {
     width: 140,

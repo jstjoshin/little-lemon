@@ -194,7 +194,7 @@ const Profile = ({ navigation, setIsOnboardingCompleted }) => {
           <View style={styles.buttonStack}>
             <View style={styles.hStack}>
               <TertiaryButton
-                text="Discard Changes"
+                text="Undo Changes"
                 onPress={loadData}
               />
               <SecondaryButton
@@ -221,7 +221,7 @@ const Profile = ({ navigation, setIsOnboardingCompleted }) => {
                 disabled={!isChanged || !ValidateEmail(email) || !ValidateName(firstName) || !ValidateName(lastName) || !ValidatePhone(phoneNumber)}
                 textColor={!isChanged || !ValidateEmail(email) || !ValidateName(firstName) || !ValidateName(lastName) || !ValidatePhone(phoneNumber)  ? '#ACACAC' : '#ffffff'}
                 style={[
-                { backgroundColor: !isChanged || !ValidateEmail(email) || !ValidateName(firstName) || !ValidateName(lastName) || !ValidatePhone(phoneNumber) ? '#F7F7F7' : '#495e57' }
+                { backgroundColor: !isChanged || !ValidateEmail(email) || !ValidateName(firstName) || !ValidateName(lastName) || !ValidatePhone(phoneNumber) ? '#F7F7F7' : '#495e57', minWidth: 150 }
                 ]}
               />
             </View>
@@ -319,7 +319,7 @@ const styles = StyleSheet.create({
   },
   errorText: {
     color: '#B3271E',
-    fontSize: 14,
+    fontSize: 13,
     marginTop: -27,
     marginBottom: -26,
     fontFamily: 'Karla',

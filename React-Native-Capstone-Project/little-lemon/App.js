@@ -61,8 +61,7 @@ function App() {
     loadOnboardingStatus();
   }, []);
 
-  if (isLoading) {
-    // We haven't finished reading from AsyncStorage yet
+  if (isLoading || !fontsLoaded) {
     return <SplashScreen />;
   }
 

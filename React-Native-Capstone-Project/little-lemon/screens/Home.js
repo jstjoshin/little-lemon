@@ -19,11 +19,13 @@ import {
   getUniqueCategories,
   queryFilteredMenu,
 } from '../utils/db';
+import useDebounce from '../utils/useDebounce';
 
 const imageBaseUrl = 'https://github.com/Meta-Mobile-Developer-PC/Working-With-Data-API/blob/main/images/';
 
 const Home = () => {
   const [searchText, setSearchText] = useState('');
+  const debouncedSearchText = useDebounce(searchText, 300);
   const [menuData, setMenuData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -50,11 +52,11 @@ const Home = () => {
 
   useEffect(() => {
     const fetchFilteredResults = async () => {
-      const result = await queryFilteredMenu(searchText, selectedCategory);
+      const result = await queryFilteredMenu(debouncedSearchText, selectedCategory);
       setFilteredData(result);
     };
     fetchFilteredResults();
-  }, [searchText, selectedCategory, menuData]);
+  }, [debouncedSearchText, selectedCategory, menuData]);
 
   const renderItem = ({ item }) => (
     <View style={styles.card}>

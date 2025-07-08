@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
   buttonStack: {
     flexDirection: 'column',
     gap: 30,
-    paddingTop: 50,
+    paddingTop: 30,
     paddingBottom: 60,
   },
   inputFieldStack: {
@@ -141,7 +141,7 @@ const styles = StyleSheet.create({
   },
   errorText: {
     color: '#B3271E',
-    fontSize: 14,
+    fontSize: 13,
     marginTop: -27,
     marginBottom: -26,
     fontFamily: 'Karla',
