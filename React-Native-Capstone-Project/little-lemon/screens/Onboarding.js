@@ -142,8 +142,8 @@ const styles = StyleSheet.create({
   errorText: {
     color: '#B3271E',
     fontSize: 13,
-    marginTop: -27,
-    marginBottom: -26,
+    marginTop: -26,
+    marginBottom: -25,
     fontFamily: 'Karla',
     fontWeight: '500',
   },

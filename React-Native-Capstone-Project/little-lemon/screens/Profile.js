@@ -26,6 +26,10 @@ const Profile = ({ navigation, setIsOnboardingCompleted }) => {
   const [notifySpecialOffers, setNotifySpecialOffers] = useState(false);
   const [notifyNewsletter, setNotifyNewsletter] = useState(false);
   const [originalValues, setOriginalValues] = useState({});
+  const [firstNameTouched, setFirstNameTouched] = useState(false);
+  const [lastNameTouched, setLastNameTouched] = useState(false);
+  const [emailTouched, setEmailTouched] = useState(false);
+  const [phoneTouched, setPhoneTouched] = useState(false);
 
   const loadData = async () => {
     const stored = {
@@ -78,6 +82,19 @@ const Profile = ({ navigation, setIsOnboardingCompleted }) => {
     }
   };
 
+  const formatPhoneNumber = (input) => {
+    const cleaned = input.replace(/\D/g, '').slice(0, 10);
+    const match = cleaned.match(/^(\d{0,3})(\d{0,3})(\d{0,4})$/);
+
+    if (!match) return input;
+
+    const [, area, prefix, line] = match;
+    if (area && prefix && line) return `(${area}) ${prefix}-${line}`;
+    if (area && prefix) return `(${area}) ${prefix}`;
+    if (area) return `(${area}`;
+    return '';
+  };
+
   return (
     <KeyboardAvoidingView
         style={styles.container}
@@ -126,43 +143,50 @@ const Profile = ({ navigation, setIsOnboardingCompleted }) => {
             <InputText
               value={firstName}
               onChangeText={onChangeFirstName}
+              onBlur={() => setFirstNameTouched(true)}
               label='First Name *'
               mode='outlined'
-              error={!ValidateName(firstName)}
+              error={firstNameTouched && !ValidateName(firstName)}
             />
-            {!ValidateName(firstName) && (
+            {firstNameTouched && !ValidateName(firstName) && (
               <Text style={styles.errorText}>First name is required and must be at least 2 letters.</Text>
             )}
             <InputText
               value={lastName}
               onChangeText={onChangeLastName}
+              onBlur={() => setLastNameTouched(true)}
               label='Last Name *'
               mode='outlined'
-              error={!ValidateName(lastName)}
+              error={lastNameTouched && !ValidateName(lastName)}
             />
-            {!ValidateName(lastName) && (
+            {lastNameTouched && !ValidateName(lastName) && (
               <Text style={styles.errorText}>Last name is required and must be at least 2 letters.</Text>
             )}
             <InputText
               value={email}
               onChangeText={onChangeEmail}
+              onBlur={() => setEmailTouched(true)}
               keyboardType={'email-address'}
               label='Email *'
               mode='outlined'
-              error={!ValidateEmail(email)}
+              error={emailTouched && !ValidateEmail(email)}
             />
-            {!ValidateEmail(email) && (
+            {emailTouched && !ValidateEmail(email) && (
               <Text style={styles.errorText}>Email is required and must be valid.</Text>
             )}
             <InputText
               value={phoneNumber}
-              onChangeText={onChangePhoneNumber}
-              keyboardType={'phone-pad'}
-              label='Phone Number'
-              mode='outlined'
-              error={!ValidatePhone(phoneNumber)}
+              onChangeText={(text) => {
+                const formatted = formatPhoneNumber(text);
+                onChangePhoneNumber(formatted);
+              }}
+              onBlur={() => setPhoneTouched(true)}
+              keyboardType="phone-pad"
+              label="Phone Number"
+              mode="outlined"
+              error={phoneTouched && !ValidatePhone(phoneNumber)}
             />
-            {!ValidatePhone(phoneNumber) && (
+            {phoneTouched && !ValidatePhone(phoneNumber) && (
               <Text style={styles.errorText}>Phone number must be valid.</Text>
             )}
           </View>
@@ -320,8 +344,8 @@ const styles = StyleSheet.create({
   errorText: {
     color: '#B3271E',
     fontSize: 13,
-    marginTop: -27,
-    marginBottom: -26,
+    marginTop: -26,
+    marginBottom: -25,
     fontFamily: 'Karla',
     fontWeight: '500',
   },

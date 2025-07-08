@@ -4,4 +4,7 @@ export const ValidateEmail = (email) => {
   );
 };
 export const ValidateName = (name) => /^[a-zA-Z]{2,}$/.test(name.trim());
-export const ValidatePhone = (phone) => phone.trim() === '' || /^\d{10,}$/.test(phone);
+export const ValidatePhone = (phone) => {
+  const digitsOnly = phone.replace(/\D/g, '');
+  return digitsOnly === '' || /^\d{10}$/.test(digitsOnly);
+};
