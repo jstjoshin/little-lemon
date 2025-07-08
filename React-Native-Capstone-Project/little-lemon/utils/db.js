@@ -38,17 +38,20 @@ export async function insertMenuItems(menuItems) {
   });
 }
 
-export async function queryFilteredMenu(searchText, selectedCategory) {
+export async function queryFilteredMenu(searchText, selectedCategories) {
   if (!db) await initDatabase();
   let query = 'SELECT * FROM menu';
   const params = [];
-  if (searchText) {
+  const hasSearch = !!searchText;
+  const hasCategories = selectedCategories && selectedCategories.length > 0;
+  if (hasSearch) {
     query += ' WHERE name LIKE ?';
     params.push(`%${searchText}%`);
   }
-  if (selectedCategory) {
-    query += searchText ? ' AND category = ?' : ' WHERE category = ?';
-    params.push(selectedCategory);
+  if (hasCategories) {
+    const categoryPlaceholders = selectedCategories.map(() => '?').join(', ');
+    query += hasSearch ? ` AND category IN (${categoryPlaceholders})` : ` WHERE category IN (${categoryPlaceholders})`;
+    params.push(...selectedCategories);
   }
   const result = await db.getAllAsync(query, params);
   return result;

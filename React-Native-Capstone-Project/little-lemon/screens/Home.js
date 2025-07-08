@@ -31,6 +31,7 @@ const Home = () => {
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [isSearchFocused, setIsSearchFocused] = useState(false);
+  const [selectedCategories, setSelectedCategories] = useState([]);
 
   useEffect(() => {
     const initMenuData = async () => {
@@ -52,11 +53,11 @@ const Home = () => {
 
   useEffect(() => {
     const fetchFilteredResults = async () => {
-      const result = await queryFilteredMenu(debouncedSearchText, selectedCategory);
+      const result = await queryFilteredMenu(debouncedSearchText, selectedCategories);
       setFilteredData(result);
     };
     fetchFilteredResults();
-  }, [debouncedSearchText, selectedCategory, menuData]);
+  }, [debouncedSearchText, selectedCategories, menuData]);
 
   const renderItem = ({ item }) => (
     <View style={styles.card}>
@@ -96,16 +97,26 @@ const Home = () => {
           />
       </View>
       <View style={styles.categoryContainer}>
-          <TouchableOpacity onPress={() => setSelectedCategory(null)}>
-          <Text style={[styles.category, !selectedCategory && styles.categoryActive]}>Full Menu</Text>
-          </TouchableOpacity>
-          {categories.map((cat) => (
-          <TouchableOpacity key={cat} onPress={() => setSelectedCategory(cat)}>
-              <Text style={[styles.category, selectedCategory === cat && styles.categoryActive]}>
-              {cat.charAt(0).toUpperCase() + cat.slice(1)}
+        {categories.map((cat) => {
+          const isActive = selectedCategories.includes(cat);
+
+          return (
+            <TouchableOpacity
+              key={cat}
+              onPress={() => {
+                if (isActive) {
+                  setSelectedCategories(selectedCategories.filter(c => c !== cat));
+                } else {
+                  setSelectedCategories([...selectedCategories, cat]);
+                }
+              }}
+            >
+              <Text style={[styles.category, isActive && styles.categoryActive]}>
+                {cat.charAt(0).toUpperCase() + cat.slice(1)}
               </Text>
-          </TouchableOpacity>
-          ))}
+            </TouchableOpacity>
+          );
+        })}
       </View>
       <FlatList
         data={filteredData}
